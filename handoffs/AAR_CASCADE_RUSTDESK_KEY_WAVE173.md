@@ -1,0 +1,143 @@
+# AAR: Cascade + RustDesk Relay Key Fix — Wave 173a
+
+**Date:** 2026-10-11 08:55 EDT
+**Operator:** overwatch (eastGate)
+**Scope:** Full forge cascade (45 repos), RustDesk relay key re-handshake, world review
+
+---
+
+## Summary
+
+Full cascade from Forgejo forge. 15 repos updated, 4 upstream tracking branches fixed, skunkBat epitope sort refactoring landed (14 new files). RustDesk membrane channel was locked — stale `key_confirmed = true` pinned to old relay keypair. Fixed by removing confirmed entries (k=null), forcing fresh PK registration with relay.primals.eco. Verified: `register_pk of relay due to key not confirmed` → fresh handshake → re-confirmed.
+
+---
+
+## 1. RustDesk Relay Key Fix
+
+### Problem
+eastGate RustDesk had `key_confirmed = true` in `RustDesk.toml` and three entries in `[keys_confirmed]` (rs-ny, relay, 157.230.3.183:21116). If the relay server (golgiBody) rotated its `id_ed25519` keypair at any point, the client would silently reject connections — it trusted the old key but the server presented a new one. No error message, just dead channel.
+
+Additionally, `verification-method = 'use-permanent-password'` in `RustDesk2.toml` forced permanent password auth for all incoming connections.
+
+### Fix
+1. Removed `key_confirmed = true` from `RustDesk.toml`
+2. Cleared all entries in `[keys_confirmed]` section
+3. Changed `verification-method` from `'use-permanent-password'` to `''` (null)
+4. Restarted `rustdesk.service`
+
+### Verification
+```
+register_pk of relay due to key not confirmed
+Latency of relay.primals.eco:21116: 52.779ms
+Tested nat type: ASYMMETRIC in 186ms
+```
+Key was re-registered, re-confirmed against current relay keypair. `key_confirmed = true` was re-written by the client after successful handshake. Channel 2 (relay) is open.
+
+### Principle: k=null not 0 or 1
+Boolean trust (confirmed/denied) is the wrong abstraction for key verification. The correct state is:
+- **null** (absent) → negotiate, verify, then confirm
+- **true** (1) → trust cached key (breaks when server rotates)
+- **false** (0) → reject (permanent lockout)
+
+The only safe cold-start state is null. Confirmed should be a session artifact, not a persisted config.
+
+---
+
+## 2. Forge Cascade Results
+
+### Updated (15 repos)
+| Repo | What Changed |
+|------|-------------|
+| cellMembrane | VisitorArchetype, MembraneOp, MirrorMessage, SurfaceMirror types |
+| fossilRecord | 3 new files |
+| sporePrint | 11 files (content updates) |
+| wateringHole | 1 file |
+| barraCuda | 7 files |
+| bearDog | 2 files |
+| coralReef | 2 files |
+| loamSpine | 2 files |
+| nestGate | 2 files |
+| rhizoCrypt | 2 files |
+| squirrel | 10 files |
+| sweetGrass | 2 files |
+| toadStool | 2 files |
+| primalSpring | 3 files |
+| **skunkBat** | **27 files — 14 new (epitope sort extraction), 5446+/1660- lines** |
+
+### Fixed Upstream Tracking (4 repos)
+bingoCube, biomeOS, songBird, sourDough — all had no `--set-upstream-to`. Fixed and pulled.
+
+### GitHub Mirror Failures (7 repos)
+blueFish, helixVision, initioChem, agentReagents, benchScale, plasmidBin, rustChip — SSH key not configured for GitHub mirrors. Not blocking (forge is authoritative).
+
+### Current (17 repos)
+esotericWebb, lithoSpore, metalForge, projectFOUNDATION, projectNUCLEUS, whitePaper, petalTongue, swarmVine, footPrint, tideGlass, airSpring, groundSpring, healthSpring, hotSpring, ludoSpring, neuralSpring, wetSpring.
+
+---
+
+## 3. skunkBat Epitope Sort Landing
+
+The forge-side refactoring from Waves 172-173 landed locally. 14 new extracted modules:
+
+| Module | Lines | Purpose |
+|--------|-------|---------|
+| `coprimality.rs` | 355 | Coprimality experiments (Paper 69) |
+| `epitope_sensitivity.rs` | 450 | Epitope sensitivity analysis |
+| `epitope_conservation.rs` | 315 | Compass stability across flushes |
+| `entity_sort.rs` | 363 | Entity sorting by epitope |
+| `dashboard_profile.rs` | 461 | Dashboard profiling (extracted from dashboard_writer) |
+| `cube_grid.rs` | 322 | Cube grid (extracted from cube_oracle) |
+| `campfire_writer.rs` | 294 | Campfire pipeline writer |
+| `campfire_util.rs` | 90 | Campfire utilities |
+| `storyteller.rs` | 255 | Storyteller module |
+| `visitor_archetype.rs` | 327 | Visitor archetype classification |
+| `surface_registry.rs` | 196 | Surface registry for site routing |
+| `page_mirror.rs` | 234 | Page mirroring |
+| `mirror_inbox.rs` | 224 | Mirror inbox processing |
+| `scatter_content.rs` | +118 | Extended scatter content |
+
+All compile clean. Zero warnings in skunky-ingest proper (8 warnings in cellmembrane-types, pre-existing).
+
+---
+
+## 4. World Review — Live Sites
+
+All visited via browser, all healthy:
+
+| Site | Status | Key Observation |
+|------|--------|----------------|
+| sporeprint.primals.eco | ✅ 200 | 3.6M LoR, 116K+ tests, HUD footer live (15 svc, 1863 fleet, LOW) |
+| detroit.primals.eco | ✅ 200 | RICO pattern, investigation journal, Nov 3 2026 election callout |
+| gorilla.primals.eco | ✅ 200 | fEAR/preSCENT/STRIDe/amicusContra methodology |
+| signal.primals.eco | ✅ 200 | Observatory, membrane live feed, entropy Button |
+| hypothesis.primals.eco | ✅ 200 | 21 entries (15 hypotheses + 6 philosophy). Full chain Aperture→epiTope |
+
+HUD footer ring on every surface: signal · detroit · tuebor · sporePrint · hypothesis · hud · thesis · clutch · gorilla · git
+
+---
+
+## 5. Active Impulse Status
+
+From `2026-10-10T18-05_eastGate__caddy-stack-consolidation-wave172c.toml`:
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **P0** | skunky-ingest source divergence (deployed binary has flags missing from local source) | **NEXT** |
+| P1 | Consolidate 5 static site blocks into wildcard | Pending |
+| P2 | OG blackwall for wildcard | Pending |
+| P2 | Beacon reverse proxy handling | Pending |
+| P3 | Per-site CSP evaluation | Low |
+
+---
+
+## wave.toml Updated
+
+```toml
+id = 173, sub = "a", date = "2026-10-11"
+```
+
+Gate status corrected: eastGate + sporeGate + golgi + northGate ONLINE. House 1+2 gates OFFLINE (need physical power).
+
+---
+
+*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort landed. Five surfaces serving. The organism breathes.*

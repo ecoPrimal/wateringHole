@@ -9,15 +9,15 @@
 # heads/<gate>.toml (each gate writes only its own file — zero conflicts).
 
 [wave]
-id = 156
-sub = "g"
-date = "2026-08-05"
-posture = "WAVE 156g REMAINING WORK FOCUS. 14/26 debt cleared. nestgate.io 10/12 (health.liveness S8 SHIPPED). toadStool absorbs Akida driver (7,755 lines). 12 items remain: 3 ops (E2 squirrel, D1 tideGlass boot, O5 nestGate TCP), 5 integration, 2 feature, 2 ongoing. No code blockers. DEPOT REBUILD READY. ~140K tests, 15/15 GREEN."
+id = 173
+sub = "a"
+date = "2026-10-11"
+posture = "WAVE 173a CASCADE FRESH. eastGate cascade complete (15 repos updated, 4 tracking fixed). RustDesk relay key re-handshaked (k=null fix). skunkBat epitope sort landed (14 new extracted files). Wildcard membrane LIVE (Wave 172). hypothesis.primals.eco 21 entries. sporePrint + detroit + gorilla + signal + hypothesis all serving. HUD footer on all surfaces. P0: skunky-ingest source divergence. Windows 16/16 compile. ~140K tests."
 publisher = "eastGate-overwatch"
 
 [gates]
-online = ["sporeGate", "eastGate", "ironGate", "golgi", "grapheneGate", "northGate", "westGate", "strandGate", "blueGate", "southGate", "biomeGate"]
+online = ["sporeGate", "eastGate", "golgi", "northGate"]
 degraded = ["flockGate"]
 validation = []
-enrolling = ["swiftGate", "steamGate", "reefGate"]
-offline = []
+enrolling = []
+offline = ["ironGate", "westGate", "strandGate", "blueGate", "southGate", "biomeGate", "graftGate"]
