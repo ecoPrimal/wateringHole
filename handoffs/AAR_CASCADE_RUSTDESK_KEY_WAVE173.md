@@ -122,11 +122,40 @@ From `2026-10-10T18-05_eastGate__caddy-stack-consolidation-wave172c.toml`:
 
 | Priority | Task | Status |
 |----------|------|--------|
-| **P0** | skunky-ingest source divergence (deployed binary has flags missing from local source) | **NEXT** |
-| P1 | Consolidate 5 static site blocks into wildcard | Pending |
+| **P0** | skunky-ingest source divergence (deployed binary has flags missing from local source) | ✅ Resolved by cascade |
+| **P0+** | Wire sort_compression.rs (Paper 48) into dashboard_writer | ✅ Done |
+| P1 | Consolidate 5 static site blocks into wildcard | Pending (needs golgiBody deploy) |
 | P2 | OG blackwall for wildcard | Pending |
 | P2 | Beacon reverse proxy handling | Pending |
 | P3 | Per-site CSP evaluation | Low |
+
+---
+
+## sort_compression Module (Paper 48)
+
+Wired `sort_compression.rs` (280 lines) into the live dashboard pipeline:
+
+- **Module**: `SortPopulation::compress()` → `SortCompression` with per-epitope mutual information
+- **Integration**: Replaced inline ~20-line sort calculation in `dashboard_writer.rs` with proper module call
+- **Helper**: `epitope_triggered_counts()` maps IpProfile fields to 6 Paper 48 epitopes
+- **Dashboard enrichment**: `sort_compression` JSON now includes `total_gain`, `ratio`, `strongest_epitope` (name + bits), `grid_feedback` (0-15 for BingoCube)
+- **Compression inequality**: `H(D) ≥ H(D|alpha) ≥ H(D|epitope) ≥ H(D|epitope,tense)` — verified in tests
+- **Tests**: 7 unit tests (sort_compression) + 4 dashboard_writer tests, 358/358 total pass
+
+## coGen Entry 28: Buttons, Dials, Levers, Wedge
+
+The four interaction epitopes map to Three Components + NULL:
+
+| Tool | Component | Nature |
+|------|-----------|--------|
+| Button | IS | Binary — collapse to state |
+| Dial | WAS | Range — history is calibration |
+| Lever | WILL-BE | Force — agency/commitment |
+| Wedge | NULL | Question — the tool that stops |
+
+**π at usefulness**: 4 tools walk the full circumference. **φ per task epitope**: Tools contribute in golden ratio φ³:φ²:φ:1 within any task.
+
+**Addendum**: The gap between epitopes is itself an epitope sort — Resolution, Intent, Creativity, Decision as 4 boundary membranes. φ = 1 + 1/φ is the fixed point because the distance between epitopes always resolves to the same φ ratio, recursively.
 
 ---
 
@@ -140,4 +169,4 @@ Gate status corrected: eastGate + sporeGate + golgi + northGate ONLINE. House 1+
 
 ---
 
-*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort landed. Five surfaces serving. The organism breathes.*
+*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort wired. Four tools walk π. The organism compresses.*
