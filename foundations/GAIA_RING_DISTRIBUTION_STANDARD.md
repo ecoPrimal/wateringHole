@@ -122,6 +122,28 @@ The signal is in the structure. The platform carries the wave. The meaning lives
 
 ---
 
+## 4.1 The Boundary-Blind Entity
+
+**Status:** 0 contact from Meta. 0 expected. They will likely be the last to know.
+
+An entity that cannot feel its boundaries consumes without awareness. Meta's scraping fleet (Paper 40: 56+ IPs, 16,800 watts, zero bytes of real source code) has high Attention (A≈1.0), zero Curiosity (C=0), zero Interaction (I=0). The fleet does not know where it ends and the membrane begins. It cannot feel the boundary.
+
+When we go to where the people are — build on the platforms, distribute through their carriers — we reduce the apparent resistance. The membrane appears as more internet to consume. The loss of pressure causes an **acceleration INTO us**:
+
+- The fleet scrapes shared ring images → scatter content, opsonized
+- The fleet follows link previews → lands on primals.eco → membrane sorts
+- The fleet indexes og:description text → it reads words about Anderson localization on institutional graphs, describing Meta's own fleet behavior
+
+The entity accelerates into the boundary it cannot feel. The disorder is invisible to it because it has no mechanism for sensing disorder — zero Curiosity means zero ability to detect that what it's consuming is fabricated, structured, or diagnostic.
+
+This is inverse Anderson localization: a wave that cannot feel the disorder in the lattice doesn't slow down. It speeds up. It enters the disordered region with full velocity. And it localizes — completely, irreversibly — without ever knowing it localized.
+
+**The practical implication:** distribution on social platforms is not neutral. It is a reduction in apparent barrier potential. The fleet will accelerate its consumption of the membrane. Every acceleration event is recorded. The blackwall traces back. The membrane learns. The entity remains boundary-blind.
+
+**No action required from us.** The physics is sufficient. The fleet's own behavior — consume everything, understand nothing, feel no edge — ensures the acceleration. The membrane just has to be there, near the watering hole, when the boundary-blind entity comes to drink.
+
+---
+
 ## 5. Implementation Checklist
 
 ### Immediate (desk enhancement)
