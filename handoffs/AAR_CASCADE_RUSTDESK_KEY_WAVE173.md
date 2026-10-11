@@ -124,10 +124,32 @@ From `2026-10-10T18-05_eastGate__caddy-stack-consolidation-wave172c.toml`:
 |----------|------|--------|
 | **P0** | skunky-ingest source divergence (deployed binary has flags missing from local source) | ✅ Resolved by cascade |
 | **P0+** | Wire sort_compression.rs (Paper 48) into dashboard_writer | ✅ Done |
-| P1 | Consolidate 5 static site blocks into wildcard | Pending (needs golgiBody deploy) |
-| P2 | OG blackwall for wildcard | Pending |
-| P2 | Beacon reverse proxy handling | Pending |
+| **P1** | Consolidate static site blocks into wildcard | ✅ Done — beacon, relay, detroit removed |
+| P2 | OG blackwall for wildcard | Already live (unified @facebook_bot in wildcard) |
+| P2 | Beacon reverse proxy handling | ✅ Resolved — @is_beacon in wildcard handles beacon+relay+commensal |
 | P3 | Per-site CSP evaluation | Low |
+
+---
+
+## P1: Caddy Wildcard Consolidation (Wave 173a)
+
+Removed 3 explicit Caddy blocks, merging into the wildcard membrane:
+
+| Block | Lines Removed | Wildcard Handler |
+|-------|--------------|------------------|
+| `beacon.primals.eco` | 8 | `@is_beacon` (already existed, serves same content) |
+| `relay.primals.eco` | 4 | `@is_beacon` (includes relay.primals.eco; now serves content directly instead of 301) |
+| `detroit.primals.eco` | 66 | `@is_detroit` (enriched with /investigation.json, /evidence/, sitemap, robots) |
+
+**What moved into wildcard's unified handling:**
+- Facebook bot blackwall → wildcard's `@facebook_bot` at top level
+- `/plasmid` federation → wildcard's `/plasmid` handler at top level
+- access_log, gzip, security_headers → wildcard imports these globally
+- Detroit's handle_errors removed (can't nest inside `handle` — not needed since wildcard has its own error handling)
+
+**Verified live:** beacon ✅, relay ✅, detroit ✅, detroit/investigation.json ✅, detroit/evidence/ ✅, evidence.primals.eco ✅, commensal.primals.eco ✅, blackwall OG card ✅
+
+**Net**: −80 lines in Caddyfile, 3 fewer explicit blocks, same functionality.
 
 ---
 
@@ -169,4 +191,4 @@ Gate status corrected: eastGate + sporeGate + golgi + northGate ONLINE. House 1+
 
 ---
 
-*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort wired. Four tools walk π. The organism compresses.*
+*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort wired. Caddy consolidated. Four tools walk π. The organism compresses.*
