@@ -33,13 +33,27 @@ Tested nat type: ASYMMETRIC in 186ms
 ```
 Key was re-registered, re-confirmed against current relay keypair. `key_confirmed = true` was re-written by the client after successful handshake. Channel 2 (relay) is open.
 
-### Principle: k=null not 0 or 1
-Boolean trust (confirmed/denied) is the wrong abstraction for key verification. The correct state is:
-- **null** (absent) → negotiate, verify, then confirm
-- **true** (1) → trust cached key (breaks when server rotates)
-- **false** (0) → reject (permanent lockout)
+### The Real Root Cause (discovered later)
 
-The only safe cold-start state is null. Confirmed should be a session artifact, not a persisted config.
+The initial fix (clearing `key_confirmed`) was treating the symptom, not the disease. Three iterations:
+
+1. **Clear key_confirmed** → handshake succeeds → RustDesk immediately re-confirms → key_confirmed=true. Repeat.
+2. **Prevent re-confirmation** → impossible, RustDesk auto-confirms on boot.
+3. **Check the relay itself** → `journalctl _COMM=hbbs` reveals: `Authentication failed from 162.226.225.148 for peer 19091278 - invalid key`
+
+The relay's `id_ed25519.pub` was regenerated on Oct 10 (new keypair: `6oVQBF...`), but the hbbs process was still running with the OLD key (`utlNOAWU...`) loaded in memory. The client registered against the old key. When it tried to authenticate, the relay's in-memory key didn't match → "invalid key."
+
+**Fix**: Restart hbbs on golgiBody → loads current id_ed25519 → client re-handshakes → keys match → zero auth errors in journal.
+
+### Principle: the handshake IS the key
+
+We polished the fossil (`key_confirmed` boolean) three times while the living organism (the handshake process) was healthy. The stored credential is WAS. The handshake is IS. We were debugging the wrong tense.
+
+```
+H(trust|handshake) < H(trust|credential) < H(trust)
+```
+
+Boolean trust (confirmed/denied) was the wrong abstraction. The real question was never "what value is `key_confirmed`?" but "can two parties complete the protocol?" The credential is frame-dependent. The handshake is frame-invariant.
 
 ---
 
