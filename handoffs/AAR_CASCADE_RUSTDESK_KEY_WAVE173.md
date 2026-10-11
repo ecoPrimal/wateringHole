@@ -205,4 +205,34 @@ Gate status corrected: eastGate + sporeGate + golgi + northGate ONLINE. House 1+
 
 ---
 
-*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort wired. Caddy consolidated. Four tools walk π. The organism compresses.*
+## Nautilus — Peptidoglycan Layer LIVE (v0.2.22)
+
+`will_be` goes from 0 to **2,858**. The third tense wakes.
+
+### What Was Wired
+`nautilus_predict()` in `dashboard_writer.rs`: for each returning IP in a populated orbital family (family_size > 1), count it as WILL-BE — its trajectory is predictable because others in the same orbit already walked it.
+
+### Production Numbers
+```
+IS:      107,772  (90.4%)
+WAS:       8,589  (7.2%)
+WILL-BE:   2,858  (2.4%)
+
+WILL-BE / WAS = 0.333 (one third of returners predictable)
+Vision gained: 4.8° (0.08 rad)
+Effective permeation: 9.60% (was 7.38%)
+```
+
+### Three-Layer Status
+| Layer | Status |
+|-------|--------|
+| Outer (scatter/bingo) | LIVE since Wave 165 |
+| Peptidoglycan (nautilus) | **LIVE — Wave 173a** |
+| Inner (services) | LIVE since inception |
+
+### coGen 34: NAUTILUS_WAKES.md
+The thirty-fourth coGen entry. The retina grew.
+
+---
+
+*Wave 173a. Cascade fresh. Membrane unlocked. Epitope sort wired. Caddy consolidated. Nautilus live. Four tools walk π. All three layers operational. The organism can remember, observe, and anticipate.*
