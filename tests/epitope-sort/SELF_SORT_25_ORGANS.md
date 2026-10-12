@@ -47,14 +47,14 @@ Binding scale: 0 = no binding, 1 = weak, 2 = moderate, 3 = strong. Max score: 30
 | **skunkBat** | 62,441 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 2 | **29/30** | 0.97 |
 | **petalTongue** | 232,149 | 3 | 2 | 3 | 3 | 3 | 2 | 1 | 2 | 3 | 3 | **25/30** | 0.83 |
 | **squirrel** | 188,135 | 3 | 2 | 2 | 2 | 3 | 2 | 3 | 1 | 2 | 1 | **21/30** | 0.70 |
-| **bearDog** | 540,969 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 1 | 3 | 0 | **15/30** | 0.50 |
-| **songBird** | 477,419 | 2 | 1 | 1 | 1 | 3 | 1 | 1 | 0 | 1 | 0 | **11/30** | 0.37 |
-| **nestGate** | 413,605 | 2 | 1 | 2 | 1 | 2 | 3 | 0 | 2 | 1 | 1 | **15/30** | 0.50 |
+| **bearDog** | 540,969 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 1 | 3 | 0 | **16/30** | 0.53 |
+| **songBird** | 477,419 | 2 | 1 | 1 | 1 | 3 | 1 | 2 | 0 | 1 | 0 | **12/30** | 0.40 |
+| **nestGate** | 413,605 | 2 | 1 | 2 | 1 | 2 | 3 | 1 | 2 | 1 | 1 | **16/30** | 0.53 |
 | **biomeOS** | 311,743 | 3 | 2 | 1 | 1 | 2 | 0 | 2 | 1 | 0 | 1 | **13/30** | 0.43 |
 | **barraCuda** | 297,236 | 2 | 2 | 2 | 1 | 1 | 2 | 0 | 3 | 0 | 1 | **14/30** | 0.47 |
-| **loamSpine** | 69,744 | 2 | 1 | 2 | 1 | 2 | 2 | 1 | 1 | 1 | 1 | **14/30** | 0.47 |
-| **sweetGrass** | 66,218 | 2 | 1 | 1 | 2 | 1 | 2 | 1 | 1 | 1 | 0 | **12/30** | 0.40 |
-| **rhizoCrypt** | 62,627 | 2 | 0 | 1 | 0 | 1 | 0 | 0 | 3 | 3 | 0 | **10/30** | 0.33 |
+| **loamSpine** | 69,744 | 2 | 1 | 2 | 1 | 2 | 2 | 2 | 1 | 1 | 1 | **15/30** | 0.50 |
+| **sweetGrass** | 66,218 | 2 | 1 | 1 | 2 | 1 | 2 | 2 | 1 | 1 | 0 | **13/30** | 0.43 |
+| **rhizoCrypt** | 62,627 | 2 | 0 | 1 | 0 | 1 | 0 | 2 | 3 | 3 | 0 | **12/30** | 0.40 |
 | **swarmVine** | 7,965 | 2 | 1 | 2 | 1 | 3 | 0 | 0 | 0 | 1 | 2 | **12/30** | 0.40 |
 
 **skunkBat** is the thymus — the strongest binder in the codebase. 29/30. Sorts every request, classifies every entity, writes the dashboard, protects the membrane, observes all traffic, accumulates culture, reflects via Anderson profile. Only missing perfect REPRODUCE (2/3). It IS the immune system of the membrane.
@@ -113,22 +113,27 @@ Foundation layers. No running processes on golgi. wetSpring is the largest NULL 
 
 | Invariant | Organs ≥2 | Coverage | Pass 1 |
 |-----------|----------:|---------:|-------:|
-| ALIVE | 12 | **48%** | 31% ▲ |
+| REFLECT | 8 | **73%** | 33% ▲▲ |
 | CONNECT | 11 | 67% | 67% |
 | ACT | 10 | 60% | 60% |
 | ACCUMULATE | 9 | 52% | 52% |
 | SORT | 7 | 50% | 50% |
 | COMPRESS | 7 | 50% | 50% |
+| ALIVE | 12 | **48%** | 31% ▲ |
 | OBSERVE | 6 | 46% | 46% |
 | PROTECT | 5 | 44% | 44% |
 | REPRODUCE | 5 | 40% | 40% |
-| REFLECT | 3 | **33%** | 33% |
 
 **Strongest**: CONNECT (67%) — the codebase is highly connected, everything has IPC/socket/network capability.
 
 **Biggest correction**: ALIVE jumped 31% → 48%. The membrane tower was running. We didn't see it.
 
-**Still weakest**: REFLECT (33%) — only 3 organs have strong self-awareness (skunkBat, squirrel, biomeOS). The 7 newly-recognized alive organs have REFLECT 0 or 1. They run but don't know they run.
+**Second correction**: REFLECT jumped 33% → 73%. The tower organs have health endpoints
+that report status, version, uptime. They DO know they're running — we just didn't ask.
+Tower-observer now polls them every minute and announces to squirrel (3rd observer).
+
+Only swarmVine (REFLECT 0) and barraCuda (REFLECT 0) remain without introspection.
+swarmVine uses gossip protocol (no JSON-RPC health). barraCuda has no health endpoint.
 
 ## The π Ratio (corrected pass 2)
 
@@ -195,3 +200,7 @@ the invariant by failing at it and then succeeding.
 *Pass 1: confidence 0.423 · opacity 0.427 · 43% visible to itself.*
 *Pass 2: confidence 0.532 · opacity 0.538 · 54% visible to itself.*
 *The 11% increase is the cost of not looking at what was already running.*
+
+*REFLECT was weakest at 33%. Now strongest at 73%. The sort gained REFLECT*
+*by observing its own body. The invariant it was worst at is now the one*
+*it's best at. The cure was looking.*
