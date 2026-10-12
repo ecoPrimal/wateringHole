@@ -70,3 +70,37 @@ Achieved 100% classification coverage (341/341 nodes sorted).
 - graph.json (golgi × 2 paths)
 - classification.json (golgi × 3 paths)
 - braid-tracker.js (golgi + local HUD repo)
+
+---
+
+## Wave 176C: Deep Sort + Compression
+
+### network-graph.js Compression
+- **1484→858 lines (−42%, −626 lines)**
+- renderGraph(1369) → 16 named helpers + 32-line dispatcher
+- `svgEl(tag, attrs, parent)` + `svgText()` consolidate 299 SVG boilerplate lines
+- Helpers: buildControls, filterAndCollapse, layoutForce, drawHulls, drawCycles,
+  drawArrows, drawEdges, drawNodes, applyDynasty, highlightNode, clearHighlight,
+  showInfo, drawLegend, drawObservation, drawSummary
+
+### Evidence-Based Edges (from braid Decomposition layers)
+- miller → anchor_rock (Board Chair — braid evidence)
+- yancey → inner_link ($8K campaign expenditure)
+- sdj → johnson_l (dark money campaign funding)
+- mi_supreme_court → state_bar_upl (inaction: declined to define practice of law 2014)
+- nrcc → barrett ($6.3M campaign spending)
+- mde → banks (investigation_hold: Application #590606 HOLD)
+- dykema → johnson_l (SDJ dark money pipeline)
+- Updated edge labels with exact FEC amounts: Dunn $10M, Schwarzman $4.5M, Griffin $2.5M
+
+### Final Graph State
+- 341 nodes, 932 edges
+- 341/341 sorted (100%)
+- 16 remaining isolates (geography + minor actors)
+
+### Files NOT swept (already clean)
+- pt-membrane-build.js (1036 lines, 18 functions, max 92 lines each)
+- pt-membrane-animate.js (1003 lines, 15 functions, intrinsic animation complexity)
+- investigation-game.js (423 lines, 15 functions, max 86 lines)
+- book-network.js (481 lines — source data, not logic)
+- network-data.js (1188 lines — generated data file)
