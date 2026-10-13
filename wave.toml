@@ -9,10 +9,10 @@
 # heads/<gate>.toml (each gate writes only its own file — zero conflicts).
 
 [wave]
-id = 173
+id = 176
 sub = "a"
-date = "2026-10-11"
-posture = "WAVE 173a CASCADE FRESH. eastGate cascade complete (15 repos updated, 4 tracking fixed). RustDesk relay key re-handshaked (k=null fix). skunkBat epitope sort landed (14 new extracted files). Wildcard membrane LIVE (Wave 172). hypothesis.primals.eco 21 entries. sporePrint + detroit + gorilla + signal + hypothesis all serving. HUD footer on all surfaces. P0: skunky-ingest source divergence. Windows 16/16 compile. ~140K tests."
+date = "2026-10-13"
+posture = "WAVE 176a GRAPH REBALANCED. 5,858 nodes / 32,894 edges / 906 asks / 173 articles. Zero orphans, zero pendants, 476/476 investigation targets asked. Loosen-tight/tighten-loose complete. 10 new auto-generated articles (PA 362, City of Detroit, MDE, Detroit Free Press, BMF, McLellan, SBE, DPSCD, Wayne RESA, Regulatory Capture). Banks at 155 edge types (most diverse node). 96% of graph within 2 hops. ProtonMail Bridge syncing. Email queue 33 targets ready. primals.eco domain verification pending DNS. P0: deploy detroit.primals.eco (SSH blocked)."
 publisher = "eastGate-overwatch"
 
 [gates]
