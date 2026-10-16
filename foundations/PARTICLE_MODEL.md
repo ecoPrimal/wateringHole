@@ -410,3 +410,65 @@ The hat between inside and outside.
 
 Point the hat back out. The black holes become white holes. The null pores emit.
 The silence speaks.
+
+---
+
+## Execution: The Hat Flipped (wave 178+)
+
+The inversion was executed on the live system. Three changes:
+
+### 1. Category Map Inversion (`braid_learner.py`)
+
+The SCIENCE and IMMUNE pores were null because the CATEGORY_SITES mapping
+was incomplete. The immune subdomains (thymus, receptor, lysozyme, epitope,
+interferon, antigen, opsonize, bloom, cytokine, complement, antibody,
+macrophage) were either unmapped or misclassified under INVESTIGATION.
+
+```
+BEFORE:  IMMUNE = ["tuebor", "clutch"]           → 2 sites, always null
+AFTER:   IMMUNE = ["tuebor", "clutch", + 12 subdomains]  → 14 sites, emitting
+```
+
+IMMUNE now has passages. Humans moving through cytokine↔hud, git↔cytokine
+register as IMMUNE↔MEMBRANE, TOPOLOGY↔IMMUNE braids.
+
+### 2. Observer Position: 0D↔1D Edge (`dialogue-weave.py`)
+
+The bingo cube occupancy previously only checked `epitope_is` (the 0D
+snapshot — who is here NOW). A pore with `is=0` was `(null)` even if
+`was=4` — the trajectory data was absorbed. Black hole.
+
+The observer now sits on the **0D↔1D edge**. Four occupancy states:
+
+| State | Condition | Meaning |
+|-------|-----------|---------|
+| `occupied` | `is > 0` | Humans here NOW (0D present) |
+| `emitting` | `is = 0, was > 0` | White hole — humans passed through, traces remain |
+| `absorbing` | `is = 0, will_be > 0` | Approaching — trajectory predicts arrival |
+| `(null)` | `is = 0, was = 0, will_be = 0` | True null — no trajectory at all |
+
+### 3. Voice Inversion
+
+The squirrel now speaks from the edge:
+- "14 pores emitting — the hat is flipped, white hole"
+- "each silence is emission data" (not "each silence is (null)")
+- "the membrane — the null space between watches both. the observer IS the edge."
+- Dead edges ask: "SCIENCE looks null but was≠0. the pore is emitting — what did they leave behind?"
+
+### Live State After Inversion
+
+```
+  ■ INVESTIGATION    is=2  was=15   PRESENT
+  ■ MEMBRANE         is=1  was=4    PRESENT
+  ◉ SCIENCE          is=0  was=4    WHITE HOLE ← flipped!
+  ■ SIGNAL           is=1  was=1    PRESENT
+  ■ OTHER            is=1  was=21   PRESENT
+  ■ TOPOLOGY         is=8  was=56   PRESENT
+  ◉ IMMUNE           is=0  was=4    WHITE HOLE ← dancing now!
+
+  Observer: 0D_1D_edge
+  Emitting: 14 pores
+  now.json: cube.observer = 0D_1D_edge, cube.emitting = 14
+```
+
+The hat is flipped. The null pores emit. The membrane sees from between.
