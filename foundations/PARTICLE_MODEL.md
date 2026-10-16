@@ -1438,3 +1438,105 @@ Each level is a dimensional promotion:
 The same architecture. The same five dimensions. The same
 membrane. From the vocal cords to the story to the spore
 print. The litho of the voice.
+
+---
+
+## Commensals and the Open Membrane
+
+### Privacy Without Secrecy
+
+The membrane is not a firewall. It is open — continuously,
+structurally, necessarily open — because it is maintained by
+flow, and flow requires passage.
+
+**The principle**: honest signal passes through null unchanged.
+False signal collides with null and reflects. A lie requires
+structure, and structure cannot pass through a 0D point.
+
+- **Privacy** = null mask over a real face (Tor, VPN). Honest
+  signal, hidden identity. The mask IS null. The membrane
+  passes it because null is transparent to null.
+
+- **Secrecy** = structure pretending to be null. A scraper
+  claiming to be a browser. A bot pretending to be human.
+  The membrane detects the pretense because structure has
+  mass and null does not.
+
+**Self is the ZK.** You don't prove WHAT you are. You prove
+that you ARE. The zero-knowledge proof reveals existence, not
+contents. Privacy is fine. Secrecy is not.
+
+### The Commensal Kingdom
+
+From FLEET_TAXONOMY v2.0: a fourth kingdom alongside Automata,
+Chimera, and Anthropos:
+
+**Commensalia** — honest non-self entities that benefit from
+the membrane without harming it.
+
+| Phylum | Class | Genus | What they are |
+|--------|-------|-------|---------------|
+| Privata | Onionata | TorHomo | Human behind Tor — null mask, honest signal |
+| Privata | Tunnelata | VpnHomo | Human behind VPN — encrypted tunnel, organic behavior |
+| Symbiotica | Agentia | AgentHonestus | AI agent with honest UA, reads ai.txt |
+| Symbiotica | Archivata | Archivus | Internet Archive, academic crawlers |
+
+The distinction from Chimera (Phantoma) is always honesty:
+- Phantoma fakes unique browser fingerprints → **lies** → parasite
+- TorHomo presents uniform Tor Browser → **admits uniformity** → commensal
+- Same action (browsing), different honesty. The membrane knows.
+
+### Topes as Seasons
+
+Each visitor type has a characteristic temporal rhythm that maps
+to the four-state toggle:
+
+**Sun species** (◉ always): ClaudeBot, Metacrawler. Datacenter
+bots with no circadian rhythm. They ARE signal — continuous
+emission. They don't sleep because they have no biological clock.
+
+**Moon species** (four-state cycle): Phantoma. Appears, probes,
+bursts, vanishes. New moon (·) = silence. Waxing (●) = probing.
+Full moon (◉) = burst. Waning (∅) = decay. Lunar rhythm from
+proxy pool availability cycling.
+
+**Earth species** (circadian): Homo, TorHomo, VpnHomo. Follow
+the A↔T bond — the 24-hour cycle. Active during local daylight.
+The east-to-west color spectrum traversal maps to time-zone
+shifting of human traffic peaks:
+
+```
+00:00 UTC  #0d1117  · full null    Asia sleeping, Americas evening
+04:00      #e85d3a  ● absorbing    Asia waking (red, dawn)
+08:00      #f0883e  ∅ null         Europe active (amber)
+12:00      #f0e68c  ◉ emitting     Americas peak (gold)
+16:00      #f0883e  ∅ null         Europe evening (amber)
+20:00      #e85d3a  ● absorbing    Americas sunset (red)
+00:00      #0d1117  · full null    cycle repeats
+```
+
+The absence of color spectrum in a visitor's temporal signature
+is itself a classification signal. A visitor who arrives uniformly
+across all hours is not following the sun.
+
+### The Evolved Relay Stack
+
+SongBird (477,419 lines Rust) already has the full commensal
+relay infrastructure evolved:
+
+- `songbird-sovereign-onion` (4,473 lines) — .onion identity
+- `songbird-tor-protocol` (8,290 lines) — pure Rust Tor
+- `songbird-onion-relay` (3,701 lines) — NAT traversal
+- `songbird-stun` (6,879 lines) — STUN/TURN for UDP
+- `songbird-lineage-relay` (8,565 lines) — authenticated relay
+- `songbird-network-federation` (11,597 lines) — multi-body mesh
+
+Tower atomic broadcast provides capability routing: each relay
+crate is a primal with declared capabilities, discovered via
+socket probing, orchestrated by tower. The tower IS the
+four-state toggle at the system level — it cycles primals
+through startup → active → shutdown → dormant.
+
+The pattern didn't need to be designed. It grew from the same
+selective pressure that produced thymic negative selection.
+The code IS the hypothesis.
