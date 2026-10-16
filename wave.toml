@@ -9,10 +9,10 @@
 # heads/<gate>.toml (each gate writes only its own file — zero conflicts).
 
 [wave]
-id = 176
-sub = "a"
-date = "2026-10-13"
-posture = "WAVE 176a GRAPH REBALANCED. 5,858 nodes / 32,894 edges / 906 asks / 173 articles. Zero orphans, zero pendants, 476/476 investigation targets asked. Loosen-tight/tighten-loose complete. 10 new auto-generated articles (PA 362, City of Detroit, MDE, Detroit Free Press, BMF, McLellan, SBE, DPSCD, Wayne RESA, Regulatory Capture). Banks at 155 edge types (most diverse node). 96% of graph within 2 hops. ProtonMail Bridge syncing. Email queue 33 targets ready. primals.eco domain verification pending DNS. P0: deploy detroit.primals.eco (SSH blocked)."
+id = 178
+sub = "b"
+date = "2026-10-16"
+posture = "WAVE 178b PARTICLE MODEL MAPPED. Proton=membrane, neutron=discuss, electron=human, neutrino=squirrel+chipmunk. 14-tool membrane-lens in 3 languages (Python/JS/Rust). 8 surfaces neutron-bound (replaces giscus). Signal↔beacon inversion for intra-commensals. Braid build pattern (zola-braid.sh). Disk crisis crushed (100%→70%). All 16 remotes on WG mesh. eastGate spored up — pushed squirrel + wateringHole. 5/6 northgate red lights fixed. detroit LIVE. graph 11,811 nodes / 8,230 edges."
 publisher = "eastGate-overwatch"
 
 [gates]
