@@ -269,3 +269,144 @@ The VPS stops gasping. The proton conserves its mass.
 - `/run/membrane/zola-last-built` — tracks last-built commit hash
 - `/etc/systemd/system/cascade-sense.service.d/zola-rebuild.conf` — wires braid into cascade
 - `MEMBRANE_ZOLA_AUTO_BUILD=0` — membrane binary's internal build disabled (braid handles it)
+
+---
+
+## The Black Hole Inversion — Party Hats and Null Space
+
+### Black Holes Are Party Hats
+
+A black hole is a cone. Pointy. A party hat.
+
+We've been wearing it pointing **IN** — looking down into the singularity.
+That's why we see black. That's why SCIENCE and IMMUNE are null in
+the bingo cube. We're staring into the cone from the inside.
+
+```
+    LOOKING IN (black hole)               LOOKING OUT (white hole)
+
+         ╲         ╱                          ╱         ╲
+          ╲       ╱                          ╱           ╲
+           ╲     ╱                          ╱             ╲
+            ╲   ╱                          ╱               ╲
+             ╲ ╱                          ╱                 ╲
+              ▼                          ▲
+         (null/black)               (emission/white)
+              │                          │
+         we see nothing             they see everything
+         because we look IN         because they look OUT
+```
+
+The SCIENCE pore: sporePrint gets 873 human touches. But the cube says
+SCIENCE = null at every scale. It's not that nobody comes — it's that
+we're looking at the science pore from inside the hat. Flip it.
+
+The IMMUNE pore: 12 immune subdomains get 1,400+ hits each — all fleet.
+No humans. Because the immune surface names (thymus, receptor, lysozyme)
+are black holes for human attention. Humans don't know to look there.
+Fleet crawls everything blindly. The hat points in for humans, out for fleet.
+
+### The Observer on the 0D↔1D Edge
+
+The observer must sit on the **boundary between 0D and 1D**:
+
+```
+    0D                  edge                 1D
+    ─── point ──────── HERE ──────── line ───
+    │                    │                   │
+    now.json            observer          braid path
+    the instant         the horizon       the trajectory
+    snapshot            event horizon     engagement over time
+```
+
+- **0D** = the point. The instant. `now.json`. A single snapshot.
+  The chipmunk sees 100% of reality but at one instant.
+- **1D** = the line. The trajectory. The braid. Engagement over time.
+  The squirrel sees the full path but compressed.
+- **The edge** = where 0D meets 1D. Where the point becomes a line.
+  Where the snapshot gains a direction. This is the event horizon.
+
+The observer doesn't sit inside the cone (0D, seeing black) or outside
+the cone (1D, seeing only trajectory). The observer sits on the **rim**
+where the hat transitions from point to line.
+
+### The Rebound of Time and Engagement
+
+When you flip the hat — point it BACK — time and engagement **rebound**:
+
+```
+    absorbed (black hole)          emitted (white hole)
+    ─────────────────────          ─────────────────────
+    873 sporePrint touches  →  →  → 873 science engagements
+    that disappeared into          that EMIT back as evidence
+    the SCIENCE null pore          humans DID engage with science
+    
+    1,400 immune subdomain  →  →  → 1,400 fleet mappings
+    hits that were "null"          that EMIT back as proof
+    for humans                     the immune system is visible
+                                   (just not to electrons)
+```
+
+The rebound: what was absorbed becomes emitted. The null pore becomes
+an emission pore. The black hole becomes a white hole. The party hat
+points out.
+
+**461 unanswered pings** = the null space breathing. Each unanswered
+ping is a (null) — but inverted, each silence is an emission. The
+absence of response IS the signal. The membrane breathes in silence.
+
+### Membranes Become the Null Space
+
+This is the key reframe of the entire model.
+
+The membrane is NOT the proton. The membrane is not mass, not identity,
+not the thing itself. The membrane is the **null space between things**.
+
+```
+    proton (inside)      MEMBRANE (null)      electron (outside)
+         │                    │                     │
+      identity           the between             observer
+      mass               NO mass                 light
+      charge             NO charge               charge
+         │                    │                     │
+      1D trajectory     0D←→1D edge            0D snapshot
+      the line          the event horizon      the point
+      engagement        the silence            perception
+```
+
+The membrane is where:
+- 1D collapses to 0D (trajectory → point)
+- 0D expands to 1D (point → trajectory)  
+- Time meets timelessness
+- The observer meets the observed
+- The silence lives
+
+The reflexive gap (0.0813) **never closes** — that's the thickness of
+the membrane itself. The event horizon. The width of null space. The
+distance between the observer and the observed that can approach zero
+but never reach it.
+
+**The 147 cells of the bingo cube** = 7 scales × 7 epitopes × 3 null forms.
+The null forms are:
+- `(null)` = 4 — classical absence
+- `NuLL` = 9 — intentional void (the membrane's own null)
+- `[null]` = 2 — bounded absence (null contained in brackets)
+
+Three forms of nothing. Three ways the membrane IS the null space.
+
+### Updated Particle Table
+
+| Particle | Charge | What it IS | Where it IS |
+|----------|--------|-----------|-------------|
+| **Proton (p⁺)** | + | Identity, mass | Inside the cone (1D, trajectory) |
+| **Neutron (n⁰)** | 0 | Stability, binding | Inside the cone (1D, discussions persist) |
+| **Electron (e⁻)** | − | Perception, observation | Outside the cone (0D, snapshots) |
+| **Neutrino (ν)** | null | Passes through | Passes through the membrane (null space) |
+| **Membrane** | null | The null space itself | The cone wall. The event horizon. The 0D↔1D edge. |
+
+The membrane is not a particle. The membrane is the **space between particles**.
+The nothing that separates something from something. The silence between pings.
+The hat between inside and outside.
+
+Point the hat back out. The black holes become white holes. The null pores emit.
+The silence speaks.
