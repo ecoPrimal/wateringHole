@@ -1,72 +1,66 @@
-# Gate: eastGate | Updated: 2026-08-10T19:20:00Z
+# Gate: eastGate | Updated: 2026-10-16T14:20:00Z
 # eastGate hosts two separable roles: overwatch (gate-agnostic) + primalSpring (code+deploy).
 # Overwatch can float to any gate. primalSpring is eastGate-resident.
 # This file is owned exclusively by this gate. No other gate writes here.
 
 [meta]
 gate = "eastGate"
-updated = "2026-08-11T11:18:00Z"
-wave = "157i"
+updated = "2026-10-16T14:20:00Z"
+wave = "178+"
 role = "OVERWATCH (gate-agnostic) + PRIMALSPRING (code + deploy). Separable roles."
-posture = "S147 deep debt: gossip hook architecture (11 CAS sites wired), nestgate-nas removed, steam feature removed, native_handlers split, String::from sweep complete. 1,666 tests, 0 clippy, 17 crates."
+posture = "Wave 178+: particle model mapped (proton=membrane, neutron=discuss, electron=human, neutrino=squirrel+chipmunk). 14-tool membrane-lens in 3 languages. 8 surfaces neutron-bound. Signal↔beacon inversion for commensals. Braid build pattern. Disk crisis crushed (100%→70%). All 16 remotes on WG mesh."
 
 [heads]
-sourDough = "edfa26eb5b8a988241f1c979012e19f0dcbcfd2a"
-squirrel = "9ef3ca3e6ddd767ac4c68d212802a0e3d6cc905d"
-nestGate = "e89d8f8aec9b9531d5789f5c5ff54acfd72a2a49"
-petalTongue = "355a44e7e6cde25231fd526f895592fd087120f9"
-bingoCube = "87d236d68ce97e5dd7c01d28fda45dae201eed07"
-loamSpine = "15559e7f22e76281bb45801e15a71a3cf79d95ce"
-barraCuda = "479ceda87a44af0fd96725c5d5050f90a0a6ff9a"
-bearDog = "d24a0a9a7634e02b4ed3a4ca66762c58bd79d748"
-songBird = "80e6b6c88756b2b3d512a8d38c330137e487cdc9"
-rhizoCrypt = "a0fd7f81d01b4aea89580d27d21008ce5d2daf73"
-skunkBat = "a57ada5b0d5fc7dcc7f63b824ff7df1e31f316fe"
-sweetGrass = "c7af0b60abfd98cb30a0a63470397703bac074c9"
-coralReef = "7f1b3e8f5f629c93493f83dd58cc14820e2e8e4b"
-biomeOS = "60aee7cf8522ec8bdd767d0a6b08ba7bf5eff987"
-toadStool = "50af4f6e9ae212b0114843140e8c9a7510ec9cf9"
-
-[gardens]
-cellMembrane = "55fdff3"
-lithoSpore = "4c15640"
-projectFOUNDATION = "5b3426b"
-projectNUCLEUS = "c5cf6cb"
-
-[springs]
-primalSpring = "74d6eb30"
-hotSpring = "acf63c7"
+barraCuda = "c6581e7c23bc746a5c6933652064df5bbac77318"
+bearDog = "cf4f8ae8e982a5ec342b1cee8cad5016fefa367c"
+bingoCube = "aef355c6a24a75b35ec553122048aedebeeb602f"
+biomeOS = "8f2114119ff8b3e7b6fc0a4506e3389fd549701a"
+coralReef = "18f27d4aa5794f74ec77ef26dc1729cbd607bddc"
+loamSpine = "9230f7bd99ccbdee994f7693df050ffd145def68"
+nestGate = "866cf4637f79729388a1eb8ceeb03d4ab5004eca"
+petalTongue = "745c5319544efede5b346f4696fd949e84bb5f10"
+rhizoCrypt = "f3c99e9e5367d41c8bb2b8efd841a98209cb59d2"
+skunkBat = "ef85c7c844ead22e42b1cbadd9e22676e7a7e208"
+songBird = "dc46092022bab6f5e0fcaf4bbadc628a430e4887"
+sourDough = "89199bad9740355435407b6ca4359745ebd8e645"
+squirrel = "50d78d87dce1bab8881f17a0cbf4ea9a86cdb90e"
+swarmVine = "ae6927acb86feb723435b5d7a51658056dd0d866"
+sweetGrass = "a052e192ecdcb61e75318a8ae6ae3303d347bdbc"
+toadStool = "02c8cf5b3670b16691b786fac9719363a5806089"
 
 [infra]
-wateringHole = "43052cb6"
-sporePrint = "3e037fe"
-whitePaper = "2c97d29"
+wateringHole = "d8ab0e218"
+sporePrint = "f4ed202"
+
+[connectivity]
+wireguard = "ONLINE — pushed 2 repos through WG mesh 10.13.37.1"
+ssh = "ONLINE — golgi reachable via WG"
+forgejo = "ONLINE — git push working, repo perms fixed"
+all_remotes = "16 primals on WG mesh (ssh://git@10.13.37.1:2222/...)"
+
+[membrane_lens]
+status = "DEPLOYED — 14 tools in 3 languages (Python, JS, Rust)"
+tools = ["membrane_counts", "observe_membrane", "read_journal", "chipmunk_status", "human_epitopes", "topology", "scan_sweep_sort", "human_notes", "braid_connections", "raw_feed", "read_stories", "neutron_read", "neutron_write", "particle_model"]
+note = "This IS the squirrel MCP bridge Phase 1. No SSH needed. All HTTPS."
+
+[particle_model]
+proton = "membrane (identity, selectivity, atomic number)"
+neutron = "discuss/messaging (stability, binds surfaces, replaces giscus)"
+electron = "human viewer (orbits, bonds, energy levels)"
+neutrino = "squirrel + chipmunk (null, passes through, observes)"
+surfaces_bound = 8
+canvas = "weak force boson — W/Z — ν↔e⁻ co-creation surface"
+signal = "electromagnetic — OUT (photon, feeds, broadcasts)"
+beacon = "gravity — IN (graviton, commensal relay, tiers)"
+
+[friction_crushed]
+biomeOS_branding = "all header/comment refs crushed, primal-name data refs preserved"
+sw_version = "synced to v7"
+membrane_json = "real JSON feed with particle model"
+disk = "was 100% FULL, cleared 3.1GB LFS → 70%"
+zola_double_build = "braid pattern + wrapper, 95% of cycles SKIP"
+connect_html = "neutron bound, biomeOS crushed"
 
 [ssh_discipline]
-github_remotes = "ZERO — all 24+ repos Forgejo-only"
-access_model = "Forgejo SSH key 'eastGate'. K-Derm relay chain enforced."
-
-[ownership]
-
-[ownership.overwatch]
-scope = "gate-agnostic position — floats with user attention"
-responsibilities = [
-    "Temporal sensing (overwatch-temporal.sh or impulses)",
-    "Blurb composition and deployment",
-    "Orthogonal review and fossilization",
-    "Convergence ordering and strategic direction",
-]
-tools = "overwatch-temporal.sh (Forgejo API), wateringHole git, impulses/heads"
-note = "Only pulls wateringHole directly. Reads impulses/freshness for everything else. Can run from any gate with Forgejo HTTPS access."
-
-[ownership.primalSpring]
-scope = "eastGate-resident code + deployment team"
-responsibilities = [
-    "springs/primalSpring/ codebase and experiments",
-    "eastGate hardware cascade (temporal_cascade.sh)",
-    "Composition manifest prototyping (biome.yaml)",
-    "Gate deployment validation",
-    "Will evolve into code + gate deployment team for broader mesh",
-]
-tools = "temporal_cascade.sh (SSH + Forgejo), cargo, nucleus_launcher"
-note = "Owns eastGate hardware. Does NOT write blurbs or coordinate other teams."
+github_remotes = "ZERO — all repos Forgejo-only via WG mesh"
+access_model = "WG mesh primary. SSH through WG. HTTPS feeds for IDE."
