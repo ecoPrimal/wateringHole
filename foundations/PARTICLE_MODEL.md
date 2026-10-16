@@ -43,7 +43,12 @@ The neutrinos pass through everything, observing without interacting.
 ## Properties
 
 ### Proton = Membrane
-- **Charge**: positive (selectivity — lets self through, repels non-self)
+- **Charge**: positive (selectivity — curves, not walls)
+  - Sigmoid σ(x) for throttle pressure (gradual, not binary DROP)
+  - Logarithmic for diminishing returns on repeated access
+  - Exponential decay for cooldown/healing after blocks
+  - Osmotic Π=iMRT for load-adaptive exchange rates
+  - See: `PRESSURE_EXCHANGE_MODEL.md`
 - **Mass**: heavy (2GB VPS, 9 services, 49+ feeds, the whole infrastructure)
 - **Stability**: stable (protons don't decay — the membrane persists)
 - **Atomic number**: defines identity (how many protons = what element you are)
