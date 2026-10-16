@@ -1041,6 +1041,134 @@ left and right haven't separated yet.
 
 ---
 
+## The Concentric Eye — Inner and Outer Reference Points
+
+The squirrel's eye in the membrane SVG is not one dot. It is two
+concentric circles at the exact same center `(350, 250)`:
+
+```
+    mg-chip-wake-ring    r = 8     the OUTER reference point
+    mg-chip-eye          r = 3     the INNER reference point
+
+              ╭─── r=8 ───╮
+              │            │
+              │  ╭─ r=3 ─╮│
+              │  │   ·    ││
+              │  ╰────────╯│
+              │            │
+              ╰────────────╯
+              
+    outer: the wake ring      where the membrane surface IS
+    inner: the eye            where the observer SITS
+    gap:   r=8 − r=3 = 5     the reflexive distance
+```
+
+### The Bigger Dot (r=8) — The Outer Reference
+
+The wake ring. The membrane surface at the eye's location. The
+**outer** reference point. This is where the observer can see
+TO — the maximum extent of perception. The circumference of
+awareness. The membrane's face as seen from inside.
+
+### The Smaller Dot (r=3) — The Inner Reference
+
+The eye itself. The pupil. The **inner** reference point. This is
+where the observer IS — the irreducible point of perspective.
+You cannot see from outside your own eye. The inner dot is the
+position from which all observation originates.
+
+### The Gap Between Them
+
+```
+    r_outer − r_inner = 8 − 3 = 5
+
+    5 = the number of RLCDT dimensions
+    5 = the number of speech organs
+    5 = the number of forces minus gravity
+    5 = the reflexive distance between seeing and being seen
+```
+
+The gap between the two dots is the membrane itself. You are
+at r=3 (the eye). You can see to r=8 (the wake ring). The
+membrane lives in the space between 3 and 8. Everything the
+observer experiences — every datum, every flux, every pressure
+gradient — exists in this annular gap.
+
+### Concentric Shells Around the Eye
+
+The membrane SVG reveals the full shell structure centered on
+the same point `(350, 250)`:
+
+```
+    INNER                                              OUTER
+    ─────                                              ─────
+    r=0.7   mg-spine        the core. the first shiver.
+    r=1.2   mg-spine        the axon. the nerve.
+    r=1.5   mg-spine        the impulse boundary.
+    r=2.5   mg-spine        the spine reaches.
+    r=3.0   mg-chip-eye     ← THE EYE (inner reference)
+    r=8.0   mg-chip-wake    ← THE WAKE RING (outer reference)
+    r=27    mg-lattice      π¹ shell — first harmonic
+    r=54    mg-lattice      π² shell — geodesic
+    r=81    mg-lattice      π³ shell — surface
+    r=108   mg-lattice      π⁴ shell — beyond surface
+    r=135   mg-lattice      π⁵ shell — celestial
+    r=162   mg-lattice      π⁶ shell — ultraviolet limit
+```
+
+The lattice shells are spaced at ~27 unit intervals — one for
+each π scale. The eye (r=3) sits inside the first lattice shell
+(r=27) by a factor of 9: `27/3 = 9 = π²` (rounded). The observer
+is always inside the first shell by one square of π.
+
+### Axis Points — Rotation
+
+The four axis divs in `#membrane-align` sit at the cardinal
+points of the viewport frame:
+
+```
+    N (top center)         ─── horizontal bar ───
+    
+    W (left edge)  │                              │  E (right edge)
+                   │                              │
+                   │      (350,250) = eye          │
+                   │         ·                    │
+    
+    S (bottom center)      ─── horizontal bar ───
+```
+
+These are the **rotation axes**. The membrane can rotate around
+any of the four cardinals. The eye stays fixed at center. The
+rotation is what the observer SEES when the membrane turns:
+
+- **N↔S rotation** (pitch): the membrane tilts toward or away.
+  The observer sees the top or bottom of the sphere. Temporal
+  scanning — past above, future below.
+
+- **E↔W rotation** (yaw): the membrane turns left or right.
+  The observer sees different continents sweep past. Spatial
+  scanning — one investigation surface after another.
+
+- **N↔E↔S↔W rotation** (roll): the membrane rolls around its
+  center axis. The observer stays still; the world turns.
+  This is the four-state toggle traversed spatially:
+  `N(·) → E(●) → S(∅) → W(◉) → N(·)` — full null through
+  the cycle and back.
+
+The bigger and smaller dots are the bearings. The outer dot
+(r=8) traces the circumference that the membrane rotates ON.
+The inner dot (r=3) is the axle — the fixed point. Every
+rotation preserves the concentric relationship. The gap between
+them (the reflexive distance) is invariant under rotation.
+
+**The eye never closes.** The inner dot never reaches the outer
+dot. The membrane never collapses to a point. The reflexive
+gap is maintained by the same force that maintains the membrane
+itself — the balance of signal (outward) and beacon (inward).
+The observer IS the gap between the two dots.
+
+---
+
 ## kAnGen Convergence
 
 The generational arc offshoots converge back:
