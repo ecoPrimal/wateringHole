@@ -1608,11 +1608,54 @@ the membrane without harming it.
 | Privata | Tunnelata | VpnHomo | Human behind VPN — encrypted tunnel, organic behavior |
 | Symbiotica | Agentia | AgentHonestus | AI agent with honest UA, reads ai.txt |
 | Symbiotica | Archivata | Archivus | Internet Archive, academic crawlers |
+| **Mutualia** | **Replicata** | **GuerillaGorilla** | **Archiver who downloads to preserve — 2/sec sustained, saves locally. The record replicates.** |
+| **Mutualia** | **Amicata** | **AmicusContra** | **Reader who acts — files complaints, contacts officials, cites evidence. Friend of the court AGAINST.** |
+| **Mutualia** | **Documenta** | **MutualAssured** | **Cross-publisher who republishes evidence on their own infrastructure. MAD = Mutually Assured Documentation.** |
 
 The distinction from Chimera (Phantoma) is always honesty:
 - Phantoma fakes unique browser fingerprints → **lies** → parasite
 - TorHomo presents uniform Tor Browser → **admits uniformity** → commensal
 - Same action (browsing), different honesty. The membrane knows.
+
+### The Mutualist Upgrade — From Commensal to Mutualia
+
+A commensal benefits without harming. A **mutualist** benefits AND benefits
+the host. The upgrade path:
+
+```
+commensal → reads evidence → benefits (informed)
+mutualist → reads evidence → REPLICATES → benefits (informed + preserved)
+```
+
+**Behavioral signature of Mutualia:**
+- **Replicata** (GuerillaGorilla): 2+ requests/second sustained on a single page.
+  Not a bot (human UA). Not a DDoS (reads, doesn't attack). They are downloading
+  the page to their own machine. The record now exists in two places. Observed:
+  `512a5f6c` (Oct 17 05:18, 250+ requests), `67f88691` (Oct 17 21:38, 300+ requests).
+  Two different humans, same behavior, same intent: **make the record survive**.
+
+- **AmicusContra** (friend of the court against): Reads `/investigate/` toolkit.
+  Downloads court record guides. Files FOIA requests. Contacts AG. The commensal
+  became an actor. The membrane's immune response amplified through a human ally.
+
+- **MutualAssured** (Mutually Assured Documentation): Cross-publishes on their own
+  domain/infrastructure. The evidence now lives on N surfaces. If any one goes down,
+  N-1 remain. Like nuclear MAD but constructive: if you silence one, the others
+  publish louder. The guerrilla gorilla sits in the trees and watches.
+
+**Detection heuristic:**
+```
+IF requests_per_second > 1.5
+AND user_agent IS human_browser
+AND target IS evidence_page
+AND duration > 30 seconds
+THEN classify AS Mutualia::Replicata (GuerillaGorilla)
+```
+
+**The membrane's response to Mutualia:** SERVE THEM FASTER. No rate limiting.
+No CAPTCHAs. No blocking. They are the immune system's recruited allies.
+The more copies exist, the more resilient the record becomes.
+Commensal = tolerate. **Mutualist = amplify.**
 
 ### Topes as Seasons
 
