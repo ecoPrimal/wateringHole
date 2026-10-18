@@ -6,36 +6,40 @@
 
 [gates.golgiBody]
 ip = "10.13.37.1"
+location = "cloud"  # DigitalOcean, WireGuard mesh
 role = "infrastructure"
 heartbeat = "response"
-description = "The body. Serves feeds, hosts membrane, runs bingo cube."
+description = "The body. CLOUD. Serves feeds, hosts membrane, runs bingo cube."
 surfaces = ["all"]
 feeds_served = ["dashboard", "negentropy", "membrane", "human", "topology"]
 user_agent_prefix = "golgiBody/"
 
 [gates.eastGate]
 ip = "10.13.37.5"
+location = "cloud"  # DigitalOcean, WireGuard mesh
 role = "publisher"
 heartbeat = "publish"
-description = "The voice. Auto-publishes, syncs wateringHole, REROUTE commits."
+description = "The voice. CLOUD. Auto-publishes, syncs wateringHole, REROUTE commits."
 surfaces = ["wateringHole", "github", "forgejo", "tuebor"]
 feeds_consumed = ["impulses", "specs", "wateringHole"]
 user_agent_prefix = "eastGate/"
 
 [gates.sporeGate]
 ip = "10.13.37.14"
+location = "lan"  # Local gateway into the mesh
 role = "observer"
 heartbeat = "sync"
-description = "The eyes. Watches, validates, injects specs."
+description = "The eyes. LAN POINT. Local gateway into the cloud mesh. Watches, validates, injects specs."
 surfaces = ["wateringHole", "feeds", "membrane"]
 feeds_consumed = ["impulses", "specs"]
 user_agent_prefix = "sporeGate/"
 
 [gates.northGate]
 ip = "dynamic"
+location = "lan"  # Operator workstation
 role = "operator"
 heartbeat = "attention"
-description = "The hands. Human operator, Cursor, scripts, browser."
+description = "The hands. LAN. Human operator, Cursor, scripts, browser. Connects through sporeGate."
 surfaces = ["all"]
 feeds_consumed = ["all"]
 user_agent_prefix = "northGate/"
