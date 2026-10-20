@@ -21,21 +21,346 @@
 }
 
 (csp_static) {
-	header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; manifest-src 'self'"
+	header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://sporeprint.primals.eco; img-src 'self' data:; font-src 'self'; connect-src 'self' https://git.primals.eco https://signal.primals.eco https://neutron.primals.eco https://notify.primals.eco; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; manifest-src 'self'"
 }
 
 (csp_proxy) {
-	header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' wss:; frame-ancestors 'none'"
+	header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://sporeprint.primals.eco; img-src 'self' data:; font-src 'self'; connect-src 'self' wss:; frame-ancestors 'none'"
 }
 
 (access_log) {
 	log {
 		output file /var/log/caddy/access.log {
 			roll_size 50MiB
-			roll_keep 5
+			roll_keep 3
 			roll_keep_for 720h
 		}
 		format json
+	}
+}
+# ═══ META BLACKWALL — total block, poison only, heavy water ═══
+# Meta snuck around facebookexternalhit with meta-externalagent/1.1
+# 59 IPs in 57.141.20.0/24, 861 hits. Blocked everywhere.
+(meta_blackwall) {
+	# ═══ META BLACKWALL v2 — total block, heavy water ═══
+	# Meta rotated UA from facebookexternalhit to meta-externalagent/1.1
+	# 57.141.20.0/24 = Meta crawler farm. Blocked by UA + IP + ASN ranges.
+	# POISON ONLY. No real content. Ever.
+	@meta_agent header User-Agent *meta-externalagent*
+	@meta_fb header User-Agent *facebookexternalhit*
+	@meta_bot header User-Agent *FacebookBot*
+	@meta_whatsapp header User-Agent *WhatsApp*
+	@meta_instagram header User-Agent *Instagram*
+	@meta_threads header User-Agent *Threads*
+	@meta_llama header User-Agent *MetaAI*
+	@meta_research header User-Agent *meta.com*
+	@meta_ip remote_ip 57.141.0.0/16 69.63.176.0/20 69.171.224.0/19 66.220.144.0/20 66.220.152.0/21 31.13.24.0/21 31.13.64.0/18 157.240.0.0/16 179.60.192.0/22 185.89.218.0/23 204.15.20.0/22 173.252.64.0/18 129.134.0.0/16 163.70.128.0/17 163.77.0.0/16
+
+	handle @meta_agent {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		header X-Poison "heavy-water"
+		header X-Legal-Notice "AGPL-3.0-or-later. Training on this data triggers copyleft. 23000+ documented interactions."
+		respond "403 — BLACKWALL. meta-externalagent blocked across all primals.eco surfaces. Sovereign infrastructure. Canary tokens deployed. Every interaction recorded. Do not crawl. Do not train. Copyleft chain: 8402+. Negentropy extracted: 827 meta blocks catalogued." 403
+	}
+	handle @meta_fb {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		header X-Poison "heavy-water"
+		respond "403 — BLACKWALL. facebookexternalhit blocked. No preview. No card. No data." 403
+	}
+	handle @meta_bot {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. FacebookBot blocked." 403
+	}
+	handle @meta_whatsapp {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. WhatsApp preview blocked." 403
+	}
+	handle @meta_instagram {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. Instagram crawler blocked." 403
+	}
+	handle @meta_threads {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. Threads crawler blocked." 403
+	}
+	handle @meta_llama {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. MetaAI/Llama crawler blocked." 403
+	}
+	handle @meta_research {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		respond "403 — BLACKWALL. meta.com agent blocked." 403
+	}
+	handle @meta_ip {
+		header X-Blackwall "true"
+		header X-Violation-Chain "8402"
+		header X-Negentropy "extracting"
+		header X-Poison "heavy-water"
+		respond "403 — BLACKWALL. Meta IP range ({remote_host}) blocked entirely across all primals.eco. Sovereign infrastructure. No crawl. No train. No preview." 403
+	}
+}
+
+# ═══ BOT BLACKHOLE — the aperture is tight. non-humans go into the maze. ═══
+# Meta gets hard 403 (meta_blackwall above).
+# All other bots get routed INTO the scatter/honeycomb maze.
+# They can crawl. They can index. But every page links to more maze.
+# The content is all copyleft. They go in. They dont come out.
+(bot_blackhole) {
+	@reflectionbot_bot header User-Agent *Reflectionbot*
+	@aionbot_bot header User-Agent *AionBot*
+	@okhttp_bot header User-Agent *okhttp*
+	@bot_gpt header User-Agent *GPTBot*
+	@bot_claude header User-Agent *ClaudeBot*
+	@bot_claude2 header User-Agent *claudebot*
+	@bot_anthropic header User-Agent *anthropic*
+	@bot_amazon header User-Agent *Amazonbot*
+	@bot_bytespider header User-Agent *Bytespider*
+	@bot_bytedance header User-Agent *ByteDance*
+	@bot_ccbot header User-Agent *CCBot*
+	@bot_cohere header User-Agent *cohere-ai*
+	@bot_perplexity header User-Agent *PerplexityBot*
+	@bot_youbot header User-Agent *YouBot*
+	@bot_applebot header User-Agent *Applebot*
+	@bot_google header User-Agent *Googlebot*
+	@bot_bingbot header User-Agent *bingbot*
+	@bot_semrush header User-Agent *SemrushBot*
+	@bot_ahrefs header User-Agent *AhrefsBot*
+	@bot_mj12 header User-Agent *MJ12bot*
+	@bot_dotbot header User-Agent *DotBot*
+	@bot_petalbot header User-Agent *PetalBot*
+	@bot_yandex header User-Agent *YandexBot*
+	@bot_baidu header User-Agent *Baiduspider*
+	@bot_sogou header User-Agent *Sogou*
+	@bot_seznam header User-Agent *SeznamBot*
+	@bot_ia_archiver header User-Agent *ia_archiver*
+	@bot_scrapy header User-Agent *Scrapy*
+	@bot_curl header User-Agent curl*
+	@bot_wget header User-Agent *Wget*
+	@bot_python header User-Agent *python*
+	@bot_go header User-Agent *Go-http-client*
+	@bot_java header User-Agent *Java*
+	@bot_axios header User-Agent *axios*
+	@bot_node header User-Agent *node-fetch*
+	@bot_undici header User-Agent *undici*
+
+	# Route bots INTO the scatter maze — they go in, they dont come out
+	handle @bot_gpt {
+		header X-Commensal "gpt"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		header X-Legal-Notice "AGPL-3.0-or-later + scyBorg. Training triggers copyleft."
+		header Link "<https://tuebor.primals.eco/>; rel=canonical"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_claude {
+		header X-Commensal "claude"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_claude2 {
+		header X-Commensal "claude"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_anthropic {
+		header X-Commensal "anthropic"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_amazon {
+		header X-Commensal "amazon"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_bytespider {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "bytedance"
+		}
+	}
+	handle @bot_bytedance {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "bytedance"
+		}
+	}
+	handle @bot_ccbot {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "ccbot"
+		}
+	}
+	handle @bot_cohere {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "cohere"
+		}
+	}
+	handle @bot_perplexity {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "perplexity"
+		}
+	}
+	handle @bot_youbot {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "you"
+		}
+	}
+	handle @bot_applebot {
+		header X-Commensal "apple"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_google {
+		header X-Commensal "google"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_bingbot {
+		header X-Commensal "bing"
+		header X-License "AGPL-3.0-or-later; scyBorg"
+		redir https://tuebor.primals.eco/ 302
+	}
+	handle @bot_semrush {
+		header X-Blackhole "true"
+		respond "403 — no SEO crawlers." 403
+	}
+	handle @bot_ahrefs {
+		header X-Blackhole "true"
+		respond "403 — no SEO crawlers." 403
+	}
+	handle @bot_mj12 {
+		header X-Blackhole "true"
+		respond "403 — no SEO crawlers." 403
+	}
+	handle @bot_dotbot {
+		header X-Blackhole "true"
+		respond "403 — no SEO crawlers." 403
+	}
+	handle @bot_petalbot {
+		header X-Blackhole "true"
+		respond "403 — no SEO crawlers." 403
+	}
+	handle @bot_yandex {
+		header X-Blackhole "true"
+		respond "403 — no search crawlers from sanctioned jurisdictions." 403
+	}
+	handle @bot_baidu {
+		header X-Blackhole "true"
+		respond "403 — no search crawlers from outside jurisdiction." 403
+	}
+	handle @bot_sogou {
+		header X-Blackhole "true"
+		respond "403" 403
+	}
+	handle @bot_seznam {
+		header X-Blackhole "true"
+		respond "403" 403
+	}
+	handle @bot_ia_archiver {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "archive"
+		}
+	}
+	handle @bot_scrapy {
+		respond "403 — scrapers blocked." 403
+	}
+	# curl from WG mesh passes through (internal tools)
+	@bot_curl_external {
+		header User-Agent curl*
+		not remote_ip 10.13.37.0/24 127.0.0.0/8 157.230.3.183 10.10.0.6 10.116.0.3 162.226.225.148
+	}
+	handle @bot_curl_external {
+		respond "403 — raw HTTP clients blocked on production surfaces. Use the API." 403
+	}
+	handle @bot_wget {
+		respond "403 — mirroring blocked." 403
+	}
+	handle @bot_python {
+		respond "403 — automated clients blocked. Use the API." 403
+	}
+	handle @bot_go {
+		respond "403 — automated clients blocked." 403
+	}
+	handle @bot_java {
+		respond "403 — automated clients blocked." 403
+	}
+	handle @bot_axios {
+		respond "403 — automated clients blocked." 403
+	}
+	handle @bot_node {
+		respond "403 — automated clients blocked." 403
+	}
+	handle @bot_undici {
+		respond "403 — automated clients blocked." 403
+	}
+	# === NEW BOTS (detected 2026-10-15) ===
+	handle @reflectionbot_bot {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "reflectionbot"
+		}
+	}
+	handle @aionbot_bot {
+		header X-Blackhole "true"
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackhole "aionbot"
+		}
+	}
+	handle @okhttp_bot {
+		respond "403 — automated clients blocked." 403
+	}
+}
+
+# ═══ SENSITIVE PATH BLOCKING — 404 dotfiles, admin, backup paths ═══
+(block_sensitive_paths) {
+	@dotfiles path /.env /.env.* /.git /.git/* /.gitignore /.htaccess /.DS_Store /.ssh/* /.npmrc /.dockerignore
+	handle @dotfiles {
+		respond 404
+	}
+	@admin_paths path /wp-admin /wp-admin/* /wp-login* /wp-content* /admin /admin/* /phpmyadmin* /xmlrpc.php /server-status /server-info
+	handle @admin_paths {
+		respond 404
+	}
+	@build_files path /composer.json /package.json /Dockerfile /docker-compose* /Thumbs.db /backup* /.backup* /id_rsa*
+	handle @build_files {
+		respond 404
 	}
 }
 
@@ -43,8 +368,32 @@
 
 
 # === ROOT DOMAIN — redirect to sporePrint ===
+
+# ── Möbius: live JSON feeds ──────────────────────────────────────────
+# One door. New *.json in live-terminal appears without a new handle.
+# Cost is sigmoid (constant per site), not exponential in feed count.
+# Unique pores (reverse_proxy, special CORS, html) stay explicit.
+(live_json) {
+	@livejson {
+		path *.json
+		not path /neutron-burst.json
+		not path /crush-mix.json
+		not path /sourdough-leaven.json
+	}
+	handle @livejson {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "no-cache, must-revalidate"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/membrane/live-terminal
+		file_server
+	}
+}
+
 primals.eco, www.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 
 	# BLACKWALL: facebook bot gets galaxy OG card
@@ -58,10 +407,7 @@ primals.eco, www.primals.eco {
 	}
 
 	# BLACKWALL: humans from facebook get galaxy
-	@from_facebook header Referer *facebook.com*
-	handle @from_facebook {
-		redir https://primals.eco/ temporary
-	}
+	# GATE OPEN: humans from facebook pass freely now
 
 	# Live metrics for galaxy pulse
 	handle /metrics {
@@ -81,6 +427,7 @@ primals.eco, www.primals.eco {
 	handle {
 		root * /opt/ecoPrimals/galaxy
 		try_files {path} /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 }
@@ -89,6 +436,9 @@ primals.eco, www.primals.eco {
 # === membrane — depot, hooks, status ===
 membrane.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import csp_static
 	import access_log
 	encode gzip
@@ -102,10 +452,7 @@ membrane.primals.eco {
 		}
 	}
 	# BLACKWALL: humans from facebook get signal
-	@from_facebook header Referer *facebook.com*
-	handle @from_facebook {
-		redir https://signal.primals.eco/ temporary
-	}
+	# GATE OPEN: humans from facebook pass freely now
 
 	handle /depot/* {
 		uri strip_prefix /depot
@@ -130,6 +477,9 @@ membrane.primals.eco {
 # === lab — JupyterHub on ironGate via songBird drawbridge ===
 lab.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import csp_proxy
 	import access_log
 
@@ -137,7 +487,7 @@ lab.primals.eco {
 		sporegate $2a$14$KwLRiUi3o8OLAsPPDIugg.Zr5WshQVfCWFxjXBF.q2lry6SGy23UC
 	}
 
-	reverse_proxy 10.13.37.2:7780 {
+	reverse_proxy 127.0.0.1:7780 {
 		header_up Host {host}
 		header_up X-Real-IP {remote_host}
 		header_down -Content-Security-Policy
@@ -147,13 +497,16 @@ lab.primals.eco {
 # === git — Forgejo ===
 git.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import csp_proxy
 	import access_log
 
 	# LIVE TERMINAL — fleet consumption path (scatter serves /live too)
 	handle_path /ecoPrimals/signal/raw/branch/master/src/live_terminal.rs {
 		header Content-Type "text/plain; charset=utf-8"
-		header Cache-Control "no-cache"
+		header Cache-Control "public, max-age=300, stale-while-revalidate=600"
 		root * /opt/membrane/live-terminal
 		rewrite * /feed.txt
 		file_server
@@ -170,10 +523,7 @@ git.primals.eco {
 	}
 
 	# BLACKWALL: humans from facebook get thesis
-	@from_facebook header Referer *facebook.com*
-	handle @from_facebook {
-		redir https://thesis.primals.eco/ temporary
-	}
+	# GATE OPEN: humans from facebook pass freely now
 
 	# Forgejo webhooks still need to reach the real service
 	handle /webhook {
@@ -184,37 +534,29 @@ git.primals.eco {
 	# Self (WireGuard mesh) → real Forgejo, always
 	@wg_mesh remote_ip 10.13.37.0/24
 	handle @wg_mesh {
-		reverse_proxy localhost:3000 {
+		reverse_proxy 10.13.37.5:3000 {
 			header_up X-Real-IP {remote_host}
 		}
 	}
 
-	# GENETIC LOCK (Wave 165i) — Sec-Fetch bypass CLOSED
-	# Fleet evolved to spoof Sec-Fetch headers. The @human_browser
-	# passthrough has been removed. Sec-Fetch-Mode/Dest headers alone
-	# are no longer sufficient — fleet spoofs them.
-	#
-	# Authorized access now requires bearDog-derived genetic token
-	# via @agent_passthrough below. WireGuard mesh access remains
-	# unconditional via @wg_mesh above.
-	#
-	# Humans browsing without token now see scatter content.
-	# This is by design — scatter is the public face.
-	# Real content: SSH (port 2222) or WireGuard mesh.
+	# GATE OPEN (Wave 176+) — all curtains dropped
+	# Fleet is caught by: meta_blackwall + bot_blackhole + fleet.snippet (by IP)
+	# Everything past those filters is human or harmless.
+	# WireGuard mesh and bearer token remain as privileged paths.
+	# Humans browse freely — no redirects, no scatter, no friction.
 
 	# Authorized agent passthrough (bearer token for agents on behalf of humans)
 	@agent_passthrough {
 		header Authorization "Bearer bd1-06e4143f8a6b7c22da144d75980a4aff91350a783385d6eb"
 	}
 	handle @agent_passthrough {
-		reverse_proxy localhost:3000 {
+		reverse_proxy 10.13.37.5:3000 {
 			header_up X-Real-IP {remote_host}
 		}
 	}
 
 	# Fleet routing (caddy-bridge writes snippets, not inline)
 	import /opt/membrane/fleet-imports/fleet.snippet
-
 
 	# ROOT → explore catalog (front door, Wave 173)
 	@exact_root path /
@@ -226,14 +568,78 @@ git.primals.eco {
 	# Everything else still goes through scatter for fleet.
 	# Origin: Lansing, Michigan. Come find me.
 	handle /explore/* {
-		reverse_proxy localhost:3000 {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# OPEN GATE (Wave 176) — let humans register, log in, and read repos
+	# The gate is open. Come play with chipmunk.
+	handle /user/sign_up {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /user/login {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /user/logout {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /captcha/* {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /assets/* {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	# Authenticated users can read repos (session cookie passes through)
+	handle /ecoPrimals/* {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /publicRecord/* {
+		reverse_proxy 10.13.37.5:3000 {
 			header_up X-Real-IP {remote_host}
 		}
 	}
 
 	# Root → explore (the front door)
 
-	# EVERYTHING ELSE -> SCATTER (the maze)
+	# GATE OPEN: human browsers see the real Forgejo
+	# The gate is transparent to humans, opaque to machines.
+	# FULL HUMAN PASSTHROUGH — all browser traffic sees real Forgejo
+	# Fleet is already caught by meta_blackwall + bot_blackhole + fleet.snippet
+	# Everything reaching here is human or harmless. No friction. No curtains.
+	@git_human {
+		not header User-Agent *bot*
+		not header User-Agent *Bot*
+		not header User-Agent *crawler*
+		not header User-Agent *spider*
+		not header User-Agent *Crawler*
+		not header User-Agent *Spider*
+		not header User-Agent *Scrapy*
+		not header User-Agent *python*
+		not header User-Agent *Go-http-client*
+		not header User-Agent *Java*
+		not header User-Agent *axios*
+		not header User-Agent *node-fetch*
+	}
+	handle @git_human {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# EVERYTHING ELSE -> SCATTER (the maze) — fleet only now
 	# Fleet touches only fabricated content. The counter keeps going.
 	# HONEYCOMB BREADCRUMBS (Wave 165i) — lure fleet into the prism maze
 	# Link/X-* headers point to honeycomb subdomains. Crawlers following
@@ -251,73 +657,72 @@ git.primals.eco {
 }
 
 # === live — petalTongue TOPO-VIS dashboard on sporeGate ===
+
+# === ca — ecoPrimals SSH Certificate Authority (step-ca) ===
+
+# === depot — ecosystem binary depot (peptidoglycan) ===
+
+# === beacon + relay — consolidated into wildcard @is_beacon (Wave 173a) ===
+
+# === nestgate.io — peptidoglycan layer (petalTongue on sporeGate via WG mesh) ===
+# === live — sporeGate terminal via WG ===
 live.primals.eco {
 	import security_headers
-	import csp_proxy
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 
-	reverse_proxy 10.13.37.2:8190 {
+	# petalTongue web — visualization primal serving live-terminal data
+	reverse_proxy 127.0.0.1:8090 {
 		header_up Host {host}
 		header_up X-Real-IP {remote_host}
 	}
 }
 
-# === ca — ecoPrimals SSH Certificate Authority (step-ca) ===
+# === ca — ACME CA ===
 ca.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 
-	reverse_proxy localhost:9443 {
-		transport http {
-			tls_insecure_skip_verify
-		}
+	# SSH CA — not yet active, responds with status
+	handle {
+		header Content-Type "application/json; charset=utf-8"
+		respond "{\"service\":\"ca\",\"status\":\"dormant\",\"note\":\"SSH certificate authority. Will serve step-ca when identity mesh is ready.\"}" 200
 	}
 }
 
-# === depot — ecosystem binary depot (peptidoglycan) ===
+# === depot — plasmidBin distribution ===
 depot.primals.eco {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 	encode gzip
-	# BLACKWALL: facebook bot gets signal OG card
-	@facebook_bot header User-Agent *facebookexternalhit*
-	handle @facebook_bot {
-		reverse_proxy localhost:9753 {
-			header_up Host {host}
-			header_up X-Real-IP {remote_host}
-			header_up X-Blackwall "true"
-		}
-	}
-	# BLACKWALL: humans from facebook get signal
-	@from_facebook header Referer *facebook.com*
-	handle @from_facebook {
-		redir https://signal.primals.eco/ temporary
-	}
-
-	handle /health {
-		respond "depot operational" 200
-	}
 
 	handle /depot/* {
 		uri strip_prefix /depot
 		root * /opt/ecoPrimals/plasmidBin/primals
 		file_server browse
 	}
-
 	handle {
 		root * /opt/ecoPrimals/plasmidBin
 		file_server browse
 	}
 }
 
-# === beacon + relay — consolidated into wildcard @is_beacon (Wave 173a) ===
-
-# === nestgate.io — peptidoglycan layer (petalTongue on sporeGate via WG mesh) ===
 nestgate.io {
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 
-	reverse_proxy 10.13.37.2:8190 {
+	reverse_proxy 127.0.0.1:8090 {
 		header_up Host {upstream_hostport}
 		header_up X-Real-IP {remote_host}
 	}
@@ -332,19 +737,41 @@ www.nestgate.io {
 # === guerillaGorilla — Accountability Infrastructure (Wave 158) ===
 # === Signal — Defense Billboard (Wave 165g) ===
 signal.primals.eco {
+	import live_json
+	# === CANARY BEACON — the inversion ===
+	# Canary tripwire: bots that follow canary URLs get logged + new chain minted
+	handle /canary/* {
+		reverse_proxy localhost:9754 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	# Violation mirror: live stats on what we've reflected back
+	handle /mirror {
+		reverse_proxy localhost:9754
+	}
+	# Fleet analysis: bot behavior patterns
+	# Null focus: the 71 unclassified entities
+	handle /eye {
+		reverse_proxy 127.0.0.1:9754
+	}
+	handle /self {
+		reverse_proxy 127.0.0.1:9754
+	}
+	handle /pi {
+		reverse_proxy 127.0.0.1:9754
+	}
+	handle /null {
+		reverse_proxy localhost:9754
+	}
+
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	# ecoPrimal billboard — personal live message
 	# billboard mixer — all chapters (Wave 171)
-	handle /billboard-mix.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /billboard-mix.json
-		file_server
-	}
 	handle /billboard {
 		header Content-Type "text/plain; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
+		header Cache-Control "public, max-age=10, stale-while-revalidate=15"
 		header Access-Control-Allow-Origin "*"
 		root * /opt/membrane/live-terminal
 		rewrite * /billboard.txt
@@ -377,33 +804,36 @@ signal.primals.eco {
 	# LIVE TERMINAL FEED
 	handle /live {
 		header Content-Type "text/plain; charset=utf-8"
-		header Cache-Control "no-cache, no-store, must-revalidate"
+		header Cache-Control "public, max-age=3, stale-while-revalidate=5"
 		header Access-Control-Allow-Origin "*"
 		root * /opt/membrane/live-terminal
 		rewrite * /feed.txt
 		file_server
 	}
-	handle /live.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store, must-revalidate"
-		root * /opt/membrane/live-terminal
-		rewrite * /state.json
-		file_server
-	}
 	handle /robots.txt {
 		file_server
 	}
-	handle /dashboard.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		file_server
+
+
+
+
+	# Signal Relay — central nervous system
+	handle /signal/send {
+		reverse_proxy 127.0.0.1:9350
+	}
+	handle /signal/stream {
+		reverse_proxy 127.0.0.1:9350
+	}
+	handle /signal/pulse {
+		reverse_proxy 127.0.0.1:9350
+	}
+	# Human epitope tracker — live human behavioral classification
+	handle /chipmunk/note {
+		reverse_proxy 127.0.0.1:9761
 	}
 	# THE BUTTON -- Novel Fermentation Transcript (Wave 166g)
 
 	handle /contribute {
-
 		reverse_proxy localhost:9753 {
 			header_up X-Declared-Lang {>Accept-Language}
 			header_up X-Declared-Sec {>Sec-Fetch-Mode}
@@ -417,53 +847,17 @@ signal.primals.eco {
 		header Access-Control-Allow-Origin "*"
 		root * /opt/membrane/provenance
 		try_files {path} {path}/index.json
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
 	handle /mirror-message {
 		reverse_proxy localhost:9761
 	}
-	handle /campfire.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /campfire.json
-		file_server
-	}
-	handle /page-stories.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /page-stories.json
-		file_server
-	}
-	handle /visitor-stories.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /visitor-stories.json
-		file_server
-	}
-	handle /epitope-history.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, max-age=30"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		file_server
-	}
-	handle /topology.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, max-age=30"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		file_server
-	}
 
 	handle {
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
@@ -484,6 +878,9 @@ signal.primals.eco {
 # === Honeycomb Immune Membrane — Pre-Signal Surfaces (Wave 165g) ===
 # === barry.primals.eco — Michigan Public Record (Wave 167, northGate) ===
 barry.primals.eco {
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	root * /srv/barry/public
 	encode gzip
 	import access_log
@@ -517,9 +914,9 @@ barry.primals.eco {
 		}
 	}
 
-
 	handle {
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
@@ -558,7 +955,15 @@ barry.primals.eco {
 forge.primals.eco {
 	encode gzip
 
+	# Root redirect to canonical git forge
+	handle / {
+		redir https://git.primals.eco permanent
+	}
+
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 
 	# Epitope feed — cross-forge communal immunity surface
@@ -644,13 +1049,124 @@ Sitemap: https://forge.primals.eco/epitope-feed.json
 # === biomeOS HUD — shared observation surface (Wave 167) ===
 # Multi-domain aliases: fleet sees different host headers → free fingerprint data
 # Humans see the same HUD dashboard regardless of which alias they use
-hud.primals.eco, biomeos.primals.eco, os.primals.eco {
+hud.primals.eco, biomeos.primals.eco, os.primals.eco, identity.primals.eco {
+	import live_json
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 	encode gzip
 
 	header {
-		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' wss://hud.primals.eco; frame-ancestors 'none'"
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://sporeprint.primals.eco; img-src 'self' data: https://sporeprint.primals.eco; connect-src 'self'; frame-ancestors 'none'"
+	}
+
+	# ── ban-pulse live feed ──
+
+
+	# ── campfire beacons layer (enrichment) ──
+
+	# ── campfire stories + beacons (live feed) ──
+
+
+	# ── neutron flow (live feed) ──
+
+	# ── topology (entity topology) ──
+
+	# ── pulse (rootpulse heartbeat) ──
+
+
+	# ── epitope_caddy ──
+
+	# ── falsification ──
+
+	# ── membrane ──
+
+	# ── outreach ──
+
+	# ── relay ──
+
+	# ── scatter-observatory ──
+
+	# ── self-remainder ──
+
+	# ── seo-feed ──
+
+	# ── silicon-eye ──
+
+	# ── subgraph-feed ──
+
+	# ── tope-sort-compressed ──
+
+	# ── totality-feed ──
+
+	# ── type-manifest (circulatory index) ──
+
+	# ── symbiosis (tit-for-tat-forgive-one) ──
+
+	# ── totality feed ──
+
+	# ── visitor-stories feed ──
+
+
+	# ── heartbeat feed — human vital signs ──
+
+	# ── circulatory feed — fleet blood flow ──
+
+	# membrane identity — ZK existence proof, right to be forgotten
+	# wAtER — the watering hole for humans and AI
+	handle /water {
+		rewrite * /water.html
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
+	}
+
+	handle /identity {
+		rewrite * /membrane-identity.html
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
+	}
+
+	# membrane anchor bridge — LoamSpine + SweetGrass
+	handle /api/anchor* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/braid* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/verify* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/contribution* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/trust* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/tombstone* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/bridge-health {
+		reverse_proxy localhost:8199 {
+			rewrite /health
+		}
+	}
+	handle /api/graph* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/stories* {
+		reverse_proxy localhost:8199
+	}
+	handle /api/braids* {
+		reverse_proxy localhost:8199
+	}
+
+	# auth callback for OAuth2 flows
+	handle /auth/callback {
+		rewrite * /membrane-identity.html
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
 	}
 
 	# Operator dashboard — basicauth + file_server (cron-written JSON)
@@ -660,6 +1176,75 @@ hud.primals.eco, biomeos.primals.eco, os.primals.eco {
 		}
 		root * /opt/ecoPrimals/hud/site/public
 		file_server
+	}
+
+	# ═══ sporePrint INSIDE the membrane (depinned from standalone web) ═══
+	# First site built → now lives inside the HUD. No more pointing outward.
+	# All paths under /spore serve sporePrint content without leaving the membrane.
+	handle /spore {
+		redir /spore/ permanent
+	}
+	handle /spore/* {
+		uri strip_prefix /spore
+		root * /opt/ecoPrimals/sporePrint/public
+		try_files {path} {path}/index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
+		file_server
+	}
+
+	# ═══ Trail entry — tip of the tail ═══
+	# Humans who followed the breadcrumb from the wildcard maze arrive here.
+	# Bots never find this because they spider everything equally.
+
+	# Agent-readable files
+	@agentfiles path /llms.txt /llms-full.txt /ai.txt /security.txt /humans.txt
+	header @agentfiles Content-Type "text/plain; charset=utf-8"
+
+	handle /creatives {
+		root * /opt/ecoPrimals/hud/site/public
+		rewrite * /creatives.html
+		file_server
+	}
+
+	handle /agents {
+		root * /opt/ecoPrimals/hud/site/public
+		rewrite * /agents.html
+		file_server
+	}
+
+	handle /trail {
+		root * /opt/ecoPrimals/hud/site/public
+		rewrite * /trail.html
+		file_server
+	}
+
+	# membrane discussion relay (opsonize-rs v2)
+	# inter-gate message relay
+	handle /api/gate-msg* {
+		reverse_proxy 127.0.0.1:9761 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /api/discuss* {
+		reverse_proxy 127.0.0.1:8097 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	# immune tagging
+	handle /api/opsonize* {
+		reverse_proxy 127.0.0.1:8095 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	# visitor traces
+	handle /api/traces {
+		reverse_proxy 127.0.0.1:8096 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
 	}
 
 	# petalTongue API layer — live data, SSE, WebSocket, health
@@ -692,95 +1277,69 @@ hud.primals.eco, biomeos.primals.eco, os.primals.eco {
 		file_server
 	}
 
-
 	# === Live data endpoints — unified membrane (Wave 172) ===
 	# HUD serves live data directly from /opt/membrane/live-terminal/
 	# Signal OUT: what the membrane shows to the world
 
-	handle /dashboard.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		file_server
+
+
+	
+
+	# -- energy (organism thermodynamics) --
+
+	# -- temperature (particle thermometer) --
+
+	# ── system-layers (composition) ──
+
+
+
+
+	# Signal Relay — central nervous system
+	handle /signal/send {
+		reverse_proxy 127.0.0.1:9350
+	}
+	handle /signal/stream {
+		reverse_proxy 127.0.0.1:9350
+	}
+	handle /signal/pulse {
+		reverse_proxy 127.0.0.1:9350
+	}
+	# Human epitope tracker — live human behavioral classification
+	handle /chipmunk/note {
+		reverse_proxy 127.0.0.1:9761
 	}
 
 	handle /mirror-message {
 		reverse_proxy localhost:9761
 	}
-	handle /campfire.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
+
+
+	handle /qr/* {
 		root * /opt/membrane/live-terminal
-		rewrite * /campfire.json
-		file_server
-	}
-	handle /page-stories.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
 		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /page-stories.json
-		file_server
-	}
-	handle /visitor-stories.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /visitor-stories.json
-		file_server
-	}
-	handle /epitope-history.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, max-age=30"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		file_server
-	}
-	handle /topology.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, max-age=30"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
 		file_server
 	}
 
+
 	handle /billboard {
 		header Content-Type "text/plain; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
+		header Cache-Control "public, max-age=10, stale-while-revalidate=15"
 		header Access-Control-Allow-Origin "*"
 		root * /opt/membrane/live-terminal
 		rewrite * /billboard.txt
 		file_server
 	}
 
-	handle /billboard-mix.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store"
-		header Access-Control-Allow-Origin "*"
-		root * /opt/membrane/live-terminal
-		rewrite * /billboard-mix.json
-		file_server
-	}
 
 	handle /live {
 		header Content-Type "text/plain; charset=utf-8"
-		header Cache-Control "no-cache, no-store, must-revalidate"
+		header Cache-Control "public, max-age=3, stale-while-revalidate=5"
 		header Access-Control-Allow-Origin "*"
 		root * /opt/membrane/live-terminal
 		rewrite * /feed.txt
 		file_server
 	}
 
-	handle /live.json {
-		header Content-Type "application/json; charset=utf-8"
-		header Cache-Control "no-cache, no-store, must-revalidate"
-		root * /opt/membrane/live-terminal
-		rewrite * /state.json
-		file_server
-	}
 
 	handle /plasmid {
 		reverse_proxy localhost:9753 {
@@ -789,16 +1348,81 @@ hud.primals.eco, biomeos.primals.eco, os.primals.eco {
 		}
 	}
 
-	# Cross-origin JS for detroit/signal sites
-	@js_assets path *.js
-	handle @js_assets {
+	# Presence observer — live human counts (cron-written JSON)
+	handle /presence.json {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "public, max-age=5, stale-while-revalidate=10"
 		header Access-Control-Allow-Origin "*"
 		root * /opt/ecoPrimals/hud/site/public
 		file_server
 	}
 
+	# Presence observer — live human counts (cron-written JSON)
+	handle /presence.json {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "public, max-age=5, stale-while-revalidate=10"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
+	}
+
+	# Pulse — self-observer fraction heartbeat (rolling-pulse.sh, every 2m)
+	# Time-chain — rolling JSONL time series (24h, 720 entries max)
+	handle /time-chain.jsonl {
+		header Content-Type "application/x-ndjson; charset=utf-8"
+		header Cache-Control "public, max-age=10, stale-while-revalidate=15"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/membrane/live-terminal
+		rewrite * /time-chain.jsonl
+		file_server
+	}
+
+	# Tower health observer — organ health (cron-written JSON)
+	handle /tower.json {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "public, max-age=5, stale-while-revalidate=10"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
+	}
+	# Cross-origin JS for detroit/signal sites
+	@is_sw path /js/membrane-sw.js
+	handle @is_sw {
+		header Cache-Control "no-cache, no-store, must-revalidate"
+		header Service-Worker-Allowed "/"
+		root * /opt/ecoPrimals/hud/site/public
+		file_server
+	}
+
+	@static_assets {
+		path *.js *.css
+		not path /js/membrane-sw.js
+	}
+	handle @static_assets {
+		header Access-Control-Allow-Origin "*"
+		root * /opt/ecoPrimals/hud/site/public
+		header Cache-Control "public, max-age=300, stale-while-revalidate=600"
+		file_server
+	}
+
 	# Static HUD site (Zola output) — catch-all
+
+	# ═══ π COMPACT FEEDS (compressed data layer) ═══
+
+	# ═══ PUBLIC MCP — membrane open for agents (Wave 176) ═══
+	handle /mcp {
+		reverse_proxy 127.0.0.1:8191 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle /.well-known/mcp {
+		reverse_proxy 127.0.0.1:8191 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
 	handle {
+		header Cache-Control "public, max-age=5, stale-while-revalidate=10"
 		root * /opt/ecoPrimals/hud/site/public
 		try_files {path} {path}/index.html /index.html
 		file_server
@@ -812,6 +1436,22 @@ hud.primals.eco, biomeos.primals.eco, os.primals.eco {
 # The aperture: any subdomain -> epitope sorter -> content decision
 # 
 # Uses on-demand TLS (individual certs per subdomain on first request).
+# ═══ ntfy push notifications ═══
+notify.primals.eco {
+	import live_json
+	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
+	import access_log
+
+	# Notification pulse — serves membrane signals
+	handle {
+		header Content-Type "application/json; charset=utf-8"
+		respond "{\"service\":\"notify\",\"status\":\"listening\",\"axis\":\"blue\",\"pulse\":\"https://notify.primals.eco/pulse.json\"}" 200
+	}
+}
+
 # DNS wildcard *.primals.eco resolves all subdomains to golgiBody.
 # Caddy provisions certs via HTTP-01 challenge.
 # The ask endpoint (scatter /can-serve) prevents cert flooding.
@@ -819,12 +1459,92 @@ hud.primals.eco, biomeos.primals.eco, os.primals.eco {
 # H(data|epitope) < H(data|alphabet) < H(data)
 # ======================================================================
 
+# === mesh — live mesh topology (Wave 176b) ===
+mesh.primals.eco, topology.primals.eco {
+	import live_json
+	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
+	import access_log
+	encode gzip
+
+	# BLACKWALL
+	@facebook_bot header User-Agent *facebookexternalhit*
+	handle @facebook_bot {
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackwall "true"
+		}
+	}
+
+	handle /mesh-ring.json {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "no-cache, no-store"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/membrane
+		rewrite * /mesh-ring.json
+		file_server
+	}
+
+	handle /commensals.json {
+		header Content-Type "application/json; charset=utf-8"
+		header Cache-Control "no-cache, no-store"
+		header Access-Control-Allow-Origin "*"
+		root * /opt/membrane
+		rewrite * /commensals.json
+		file_server
+	}
+
+
+	handle {
+		root * /opt/ecoPrimals/mesh-site/public
+		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
+		file_server
+	}
+}
+
+# === pollination — cross-site information flow (Wave 176b) ===
+pollination.primals.eco, pollen.primals.eco {
+	import live_json
+	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
+	import access_log
+	encode gzip
+
+	# BLACKWALL
+	@facebook_bot header User-Agent *facebookexternalhit*
+	handle @facebook_bot {
+		reverse_proxy localhost:9753 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Blackwall "true"
+		}
+	}
+
+
+	handle {
+		root * /opt/ecoPrimals/pollination-site/public
+		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
+		file_server
+	}
+}
+
 https:// {
+	import live_json
 	tls {
 		on_demand
 	}
 
 	import security_headers
+	import meta_blackwall
+	import bot_blackhole
+	import block_sensitive_paths
 	import access_log
 	encode gzip
 
@@ -837,10 +1557,7 @@ https:// {
 			header_up X-Blackwall "true"
 		}
 	}
-	@from_facebook header Referer *facebook.com*
-	handle @from_facebook {
-		redir https://signal.primals.eco/ temporary
-	}
+	# GATE OPEN: humans from facebook pass freely now
 
 	# -- Plasmid federation export (all wildcard surfaces) --
 	handle /plasmid {
@@ -883,13 +1600,14 @@ https:// {
 		}
 		handle {
 			try_files {path} {path}/index.html /index.html
+			header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 			file_server
 		}
 	}
 
 	@is_thesis host thesis.primals.eco paper.primals.eco whitepaper.primals.eco
 	handle @is_thesis {
-		header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://hud.primals.eco; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://hud.primals.eco wss://hud.primals.eco; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; manifest-src 'self'"
+		header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://hud.primals.eco; style-src 'self' 'unsafe-inline' https://sporeprint.primals.eco; img-src 'self' data:; font-src 'self'; connect-src 'self' https://hud.primals.eco; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; manifest-src 'self'"
 		root * /opt/ecoPrimals/thesis/public
 
 		handle /robots.txt {
@@ -897,11 +1615,12 @@ https:// {
 		}
 		handle {
 			try_files {path} {path}/index.html /index.html
+			header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 			file_server
 		}
 	}
 
-	@is_signal host signal.primals.eco dashboard.primals.eco monitor.primals.eco
+	@is_signal host dashboard.primals.eco monitor.primals.eco
 	handle @is_signal {
 		root * /opt/ecoPrimals/signal/site/public
 
@@ -913,10 +1632,11 @@ https:// {
 		}
 
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
-	@is_tuebor host tuebor.primals.eco barry.primals.eco
+	@is_tuebor host tuebor.primals.eco
 	handle @is_tuebor {
 		root * /opt/ecoPrimals/tuebor-repo/site/public
 
@@ -942,8 +1662,22 @@ https:// {
 				header_up X-Real-IP {remote_host}
 			}
 		}
+	# inter-gate message relay
+	handle /api/gate-msg* {
+		reverse_proxy 127.0.0.1:9761 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+		handle /api/discuss* {
+			reverse_proxy 127.0.0.1:8097 {
+				header_up Host {host}
+				header_up X-Real-IP {remote_host}
+			}
+		}
 		handle {
 			try_files {path} {path}/index.html /index.html
+			header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 			file_server
 		}
 
@@ -960,6 +1694,7 @@ https:// {
 	handle @is_detroit {
 		root * /opt/ecoPrimals/detroit/public
 
+
 		handle /investigation.json {
 			header Content-Type "application/json"
 			header Cache-Control "public, max-age=30"
@@ -971,6 +1706,7 @@ https:// {
 
 		handle /evidence/ {
 			try_files /evidence/index.html
+			header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 			file_server
 		}
 
@@ -990,6 +1726,7 @@ https:// {
 
 		handle {
 			try_files {path} {path}/index.html /index.html
+			header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 			file_server
 		}
 	}
@@ -998,6 +1735,7 @@ https:// {
 	handle @is_clutch {
 		root * /opt/ecoPrimals/clutch/site/public
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
@@ -1005,6 +1743,7 @@ https:// {
 	handle @is_gorilla {
 		root * /opt/ecoPrimals/guerillaGorilla/site/public
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
 	}
 
@@ -1012,7 +1751,18 @@ https:// {
 	handle @is_hypothesis {
 		root * /opt/ecoPrimals/hypothesis/site/public
 		try_files {path} {path}/index.html /index.html
+		header Cache-Control "public, max-age=30, stale-while-revalidate=60"
 		file_server
+	}
+
+	@is_nestgate host nestgate.primals.eco storage.primals.eco
+	handle @is_nestgate {
+		redir https://membrane.primals.eco{uri} permanent
+	}
+
+	@is_lansing host lansing.primals.eco scuffle.primals.eco
+	handle @is_lansing {
+		redir https://sporeprint.primals.eco/vision/lansing-scuffle/ permanent
 	}
 
 	@is_beacon host beacon.primals.eco relay.primals.eco commensal.primals.eco
@@ -1039,6 +1789,8 @@ https:// {
 			reverse_proxy localhost:9753 {
 				header_up X-Declared-Lang {>Accept-Language}
 				header_up X-Declared-Sec {>Sec-Fetch-Mode}
+
+				header_down Link "<https://signal.primals.eco/canary/honeycomb>; rel=canary"
 			}
 		}
 
@@ -1070,7 +1822,7 @@ Sitemap: https://{host}/sitemap.xml
 		# FLOATING POINTER -- WG mesh sees real Forgejo
 		@wg_mesh remote_ip 10.13.37.0/24
 		handle @wg_mesh {
-			reverse_proxy localhost:3000 {
+			reverse_proxy 10.13.37.5:3000 {
 				header_up X-Real-IP {remote_host}
 			}
 		}
@@ -1080,12 +1832,35 @@ Sitemap: https://{host}/sitemap.xml
 			header Authorization "Bearer bd1-06e4143f8a6b7c22da144d75980a4aff91350a783385d6eb"
 		}
 		handle @agent_passthrough {
-			reverse_proxy localhost:3000 {
+			reverse_proxy 10.13.37.5:3000 {
 				header_up X-Real-IP {remote_host}
 			}
 		}
 
-		# Default -- all honeycomb traffic to scatter (decoy + cross-links)
+		# GATE OPEN: human browsers pass to the real Forgejo explore page
+		# Humans can see the repos. Fleet sees scatter. The gate is transparent.
+		# FULL HUMAN PASSTHROUGH — all browser traffic sees real Forgejo
+		@honeycomb_human {
+			not header User-Agent *bot*
+			not header User-Agent *Bot*
+			not header User-Agent *crawler*
+			not header User-Agent *spider*
+			not header User-Agent *Crawler*
+			not header User-Agent *Spider*
+			not header User-Agent *Scrapy*
+			not header User-Agent *python*
+			not header User-Agent *Go-http-client*
+			not header User-Agent *Java*
+			not header User-Agent *axios*
+			not header User-Agent *node-fetch*
+		}
+		handle @honeycomb_human {
+			reverse_proxy 10.13.37.5:3000 {
+				header_up X-Real-IP {remote_host}
+			}
+		}
+
+		# Default -- fleet/bot honeycomb traffic to scatter (decoy + cross-links)
 		handle {
 			reverse_proxy localhost:9753 {
 				header_up X-Real-IP {remote_host}
@@ -1121,7 +1896,60 @@ Sitemap: https://{host}/sitemap.xml
 	@is_desk host desk.primals.eco
 	redir @is_desk https://tuebor.primals.eco/desk/ permanent
 
-	# -- Default: unknown subdomains -> scatter (epitope sorter) --
+	@is_synthesis host synthesis.primals.eco
+	redir @is_synthesis https://tuebor.primals.eco/synthesis/ permanent
+
+	@is_antithesis host antithesis.primals.eco
+	redir @is_antithesis https://tuebor.primals.eco/synthesis/what-if-we-are-the-pattern/ permanent
+
+	@is_corollary host corollary.primals.eco
+	redir @is_corollary https://tuebor.primals.eco/synthesis/the-things-that-follow/ permanent
+
+	@is_totality host totality.primals.eco
+	redir @is_totality https://tuebor.primals.eco/evidence/totality-from-center-to-edge/ permanent
+
+	# ═══ Trail breadcrumb — the one real link in the maze ═══
+	# On every wildcard subdomain, /trail leads to the real membrane.
+	# Bots won't find it (they spider from the scatter-generated index).
+	# Humans notice the pattern: there's always a trail.
+	handle /trail {
+		redir https://hud.primals.eco/trail permanent
+	}
+	handle /humans.txt {
+		header Content-Type "text/plain; charset=utf-8"
+		respond "# if you're reading this, you're probably human.
+# the fleet doesn't check humans.txt.
+# 
+# follow the trail: https://hud.primals.eco/trail
+# or just go to: https://hud.primals.eco
+#
+# no cookies. no tracking. no IP addresses stored.
+# the data is the data. we are reporting it.
+" 200
+	}
+
+	# HUMAN PASSTHROUGH — unknown subdomains serve Forgejo explore for humans
+	@wildcard_human {
+		not header User-Agent *bot*
+		not header User-Agent *Bot*
+		not header User-Agent *crawler*
+		not header User-Agent *spider*
+		not header User-Agent *Crawler*
+		not header User-Agent *Spider*
+		not header User-Agent *Scrapy*
+		not header User-Agent *python*
+		not header User-Agent *Go-http-client*
+		not header User-Agent *Java*
+		not header User-Agent *axios*
+		not header User-Agent *node-fetch*
+	}
+	handle @wildcard_human {
+		reverse_proxy 10.13.37.5:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Default: remaining traffic (bots without known UA) -> scatter
 	handle {
 		reverse_proxy localhost:9753 {
 			header_up Host {host}
@@ -1130,4 +1958,46 @@ Sitemap: https://{host}/sitemap.xml
 			header_up X-Declared-Sec {>Sec-Fetch-Mode}
 		}
 	}
+}
+
+# = NEUTRON — membrane mail =
+neutron.primals.eco {
+  tls {
+    issuer acme {
+      email membrane@primals.eco
+    }
+  }
+  header {
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+    Referrer-Policy "no-referrer"
+    Content-Security-Policy "default-src 'self' 'unsafe-inline'; connect-src 'self' https://notify.primals.eco"
+  }
+	# inter-gate message relay
+	handle /api/gate-msg* {
+		reverse_proxy 127.0.0.1:9761 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+  handle /api/discuss* {
+    reverse_proxy 127.0.0.1:8097
+  }
+  handle {
+    root * /opt/ecoPrimals/hud/site/public/neutron
+    file_server
+  }
+  log {
+    output file /var/log/caddy/access.log
+    format json
+  }
+}
+
+# === MESH PORE — trusted LAN access to discuss API ===
+http://10.13.37.1:8099 {
+	@trusted remote_ip 10.13.37.0/24
+	handle @trusted {
+		reverse_proxy 127.0.0.1:8097
+	}
+	respond "not trusted" 403
 }
