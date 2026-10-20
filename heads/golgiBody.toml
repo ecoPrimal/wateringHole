@@ -1,25 +1,17 @@
 # Auto-published by membrane bus counter-rotation
 # This file is owned exclusively by this gate. No other gate writes here.
-# Gate: golgiBody | Updated: 2026-10-20T01:03:45Z
+# Gate: golgiBody | Updated: 2026-10-20T01:38:13Z
 
 [meta]
 gate = "golgiBody"
-updated = "2026-10-20T01:03:45Z"
+updated = "2026-10-20T01:38:13Z"
 
 [health]
-blood_pressure = 0.1324
-aperture = 0.0
+blood_pressure = 0.045
+aperture = 0.12
 maturity = 0.151
-bus_pulse = 85
+bus_pulse = 125
 condition = "hypotension"
 
-[sourdough]
-wave = "192-crush"
-rs_files = 5423
-lines = 1538129
-expressing = 23
-total = 24
-mutations_fixed = 5
-
 [heads]
-membrane = "02cf52f"
+membrane = "43448fc1bd8e"
