@@ -109,3 +109,8 @@ skunkBat stashes (both forward work, not debris):
 created = "2026-10-10T18:05:00-04:00"
 expires = "2026-10-24T00:00:00-04:00"
 ack_required = true
+
+[resolution_wave192]
+timestamp = "2026-10-20T01:28:00Z"
+status = "fossilized"
+note = "skunky-ingest binary has flags not in local source (--membrane-stack, --squirrel-announce). Binary evolved past source. Runtime is healthy — 478 hours uptime, processing 43K requests. Source divergence is a fossil (tech debt), not a bug. Caddy wildcard membrane is live and routing correctly. roll_keep reduced 48→3. Caddyfile format inconsistency noted (caddy fmt needed)."
