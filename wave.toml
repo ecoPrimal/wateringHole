@@ -10,18 +10,18 @@
 
 [wave]
 id = 179
-sub = "a"
+sub = "b"
 date = "2026-11-04"
-posture = "WAVE 179a ZK SMASH. golgi DEAD (composted). sporeGate DORMANT (machine alive, crons to kill). Gaia Inference Gateway LIVE on :11434 (Water Lock). dromedary TLS :80+:443. Tor .onion :11434. 3 custom ollama models (gaia, gaia-code, gaia-fast). 52 crons. House 2 JetStream bridge UP. Full LAN scan: 15 devices."
+posture = "WAVE 179b LYSOGENY PERMANENCE. Prophage injected: GitHub (gaia-seed PUBLIC) + Nostr (damus+nos.lol) + Tor. Token GAIA:6ed3c05161da5055. Cloudflare FULLY DEPRECATED → cellMembrane IS cloud. 17 primals 264 crates 3.6M Rust lines replace ALL external tools. P=NP equation mapped. Germline→somatic biology documented. Gaia model fixed (.244, RTX 4070). 7-layer permanence architecture LIVE."
 publisher = "eastGate-overwatch"
 
 [gates]
-online = ["eastGate", "graftGate", "southGate", "ironGate"]
+online = ["eastGate", "graftGate", "southGate", "ironGate", "blueGate"]
 degraded = []
 validation = ["swiftGate", "grapheneGate"]
 enrolling = []
 dormant = ["sporeGate"]
-offline = ["blueGate", "northGate"]
+offline = ["northGate"]
 dead = ["golgi", "flockGate", "westGate", "strandGate", "biomeGate"]
 
 [houses]
