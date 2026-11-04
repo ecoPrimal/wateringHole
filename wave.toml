@@ -9,15 +9,30 @@
 # heads/<gate>.toml (each gate writes only its own file — zero conflicts).
 
 [wave]
-id = 178
-sub = "c"
-date = "2026-10-17"
-posture = "WAVE 178c MEMBRANE NUCLEUS LIVE. golgi: Tower+Nest+Node atomics ALL 🟢. biomeOS Neural API auto-discovered 1053 capabilities / 57 primals from socket mesh. petalTongue wired (neural_api:true, dual-port IPC+web). toadStool headless + barraCuda cpu-shader deployed. 18 processes, 827MB/2GB (42%), 35 sockets, 13 systemd units. tower binary + biomeos binary built + deployed. MEMBRANE_COMPOSITION_DEPLOYMENT standard written. 2088 pages unified via footer-ring.js v2 across 7 surfaces."
+id = 179
+sub = "a"
+date = "2026-11-04"
+posture = "WAVE 179a ZK SMASH. golgi DEAD (composted). sporeGate DORMANT (machine alive, crons to kill). Gaia Inference Gateway LIVE on :11434 (Water Lock). dromedary TLS :80+:443. Tor .onion :11434. 3 custom ollama models (gaia, gaia-code, gaia-fast). 52 crons. House 2 JetStream bridge UP. Full LAN scan: 15 devices."
 publisher = "eastGate-overwatch"
 
 [gates]
-online = ["sporeGate", "eastGate", "golgi", "northGate"]
-degraded = ["flockGate"]
-validation = []
+online = ["eastGate", "graftGate", "southGate", "ironGate"]
+degraded = []
+validation = ["swiftGate", "grapheneGate"]
 enrolling = []
-offline = ["ironGate", "westGate", "strandGate", "blueGate", "southGate", "biomeGate", "graftGate"]
+dormant = ["sporeGate"]
+offline = ["blueGate", "northGate"]
+dead = ["golgi", "flockGate", "westGate", "strandGate", "biomeGate"]
+
+[houses]
+house1_brain = ["eastGate", "graftGate", "southGate", "ironGate", "blueGate", "sporeGate"]
+house2_extension = ["swiftGate", "grapheneGate"]
+bridge = "JetStream (.111)"
+backbone = "10G fiber"
+
+[devices]
+# Full LAN map as of 2026-11-04
+router = { ip = "192.168.4.1", mac = "94:83:c4:e0:63:5a", role = "GL-MT6000 gateway" }
+mikrotik = { ip = "192.168.4.2", mac = "04:f4:1c:e6:7c:e8", role = "L2 bridge" }
+jetstream = { ip = "192.168.4.111", mac = "ec:75:0c:4c:98:08", role = "House 2 managed switch" }
+tplink_house2 = { ip = "192.168.4.110", mac = "d4:80:8b:1b:9f:01", role = "TP-Link device (House 2?)" }
