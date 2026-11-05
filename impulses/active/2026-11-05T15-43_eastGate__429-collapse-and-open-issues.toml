@@ -226,6 +226,44 @@ severity = "low"
 owner = "kevin+gaia"
 evidence = "Merged fast-forward on eastGate. Changes visitor scoring (humans fixed at magnitude 1.0, direction by behaviour, bots < 1.0). Not reviewed in depth here; flagging because it touches the same visitor/trust model the 429 fix (item 1, option 3) would rely on."
 
+
+# ---------------------------------------------------------------------------
+# 11. UPDATE 2026-11-05 ~16:10 - grapheneGate dissolved into Gaia
+# ---------------------------------------------------------------------------
+[[issues]]
+id = 11
+title = "grapheneGate is no longer a gate: it is a Gaia dev peripheral (upstream docs/profiles are now stale)"
+severity = "medium"
+owner = "polaris+gaia"
+evidence = """
+Kevin's decision (2026-11-05): the Pixel 8a belongs to Gaia and is a dev tool.
+Done on eastGate:
+  - /opt/Gaia/runtime/graphene_depot.pi is the single owner of phone ADB
+    addressing (USB first, serial-verified WiFi fallback). infra/graphenegate-sense.sh
+    is now a shim. Phone captures go to private data/optic/ (gitignored).
+  - The old 817 MB on-phone stack (Tower/nucleus builds, logs, scripts) was
+    removed from /data/local/tmp; identity + small state backed up locally
+    (private, never in git). Phone now holds only 32 MB: gaia-chimera/.
+  - Fresh 'chimera' built from current source: bearDog 3b28d1742, songBird
+    f4ec0825, skunkBat 63b1fe1 -> aarch64-unknown-linux-musl (the Android
+    NDK target is not buildable here: NDK not installed). All three alive,
+    bound to 127.0.0.1 only (old scripts bound bearDog to 0.0.0.0:9100 and
+    used the family id as the seed). Fresh random on-device seed; NOT enrolled
+    in any family mesh.
+  - Manifest: Gaia data/neutron/chimera-manifest.json; control:
+    python3 runtime/graphene_depot.pi chimera start|stop|health
+"""
+suggested_fix = """
+Owners of these still describe grapheneGate as a 'portable_anchor' gate with
+a Keymaster-backed family seed and 13/13 primals: wateringHole
+operations/GRAPHENEGATE_BOOTSTRAP_STANDARD.md, gardens/projectNUCLEUS/gates/
+graphenegate.toml, springs/primalSpring config/profiles/graphenegate.toml and
+s_graphenegate_readiness, primals/bearDog infra/gates/grapheneGate.toml. Mark
+them superseded or rewrite for the dev-peripheral role; the readiness
+scenario will now fail against the real device. Open question for Polaris:
+whether the chimera should ever join the family mesh, and with which identity.
+"""
+
 # ---------------------------------------------------------------------------
 # Context for whoever picks this up
 # ---------------------------------------------------------------------------
