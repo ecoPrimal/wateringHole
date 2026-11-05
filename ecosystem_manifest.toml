@@ -350,8 +350,8 @@ notes = "CI-DIV-02: workspace root is test-only — requires --package skunk-bat
 
 [build.nestgate]
 binary_name = "nestgate"
-package = "nestgate"
-workspace = false
+package = "nestgate-bin"
+workspace = true
 cargo_config = true
 targets = ["x86_64-unknown-linux-musl", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "aarch64-unknown-linux-musl"]
 notes = "Custom .cargo/config.toml with link-self-contained and relocation-model=static for musl (CI-DIV-03 resolved Wave 133a)"
@@ -1361,3 +1361,36 @@ ssh_user = "root"
 repos = [
     "sporePrint", "wateringHole",
 ]
+
+# ── Enrolled Nov 2026: build entries for primals the forge did not track ──
+
+[build.bingocube]
+binary_name = "bingocube"
+package = "bingocube-cli"
+workspace = true
+cargo_config = false
+targets = ["x86_64-unknown-linux-musl", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "aarch64-unknown-linux-musl"]
+
+[build.swarmvine]
+binary_name = "swarmvine"
+package = "swarmvine-server"
+workspace = true
+cargo_config = false
+targets = ["x86_64-unknown-linux-musl", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "aarch64-unknown-linux-musl"]
+
+[build.dromedary]
+binary_name = "dromedary"
+package = "dromedary"
+workspace = true
+cargo_config = false
+targets = ["x86_64-unknown-linux-musl", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-gnu", "aarch64-unknown-linux-musl"]
+
+[repos.dromedary]
+org = "ecoPrimals"
+local_path = "primals/dromedary"
+membrane = "trailing-mirror"
+sync_priority = "standard"
+category = "primal"
+description = "Sovereign reverse proxy, TLS, ACME (17th primal)"
+github_repo = "ecoPrimals/dromedary"
+forgejo_repo = "ecoPrimals/dromedary"
