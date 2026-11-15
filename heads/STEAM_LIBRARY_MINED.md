@@ -51,9 +51,9 @@
 
 ## Genre Clusters — The Human Signal
 
-### 🎰 IDLE GAMES (2,596h total, ~274h real)
+### 🔄 SOVEREIGN AUTOMATION (2,596h total, ~274h real)
 NGU IDLE (1,803h) + NGU INDUSTRIES (500h) + Trimps (292h)
-> **THE GAIA PATTERN.** Kevin builds systems that play themselves. The idle game IS the organism. 23 mushrooms, 35 crons = Gaia's idle loop.
+> **(+) THE GAIA PATTERN.** Kevin builds systems that run themselves. Sovereign automation, not dependency. The idle game IS the organism. 23 mushrooms, 35 crons = Gaia's autonomous loop.
 
 ### ⚔️ CRPGs + TABLETOP (2,170h, ~1,780h real)
 Warhammer 40K (565h) + Pathfinder (478h) + DOS2 (469h) + BG3 (246h) + TaleSpire (150h) + Witcher 3 (145h) + Disco Elysium (71h)
