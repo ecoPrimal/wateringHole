@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>GAIA — eyeBall Ghost</title>
+<style>
+  * { margin:0; padding:0; }
+  body { background:#000; overflow:hidden; cursor:none; opacity:0.25; }
+  canvas { display:block; }
+</style>
+</head><body>
+<canvas id="eye"></canvas>
+<script>
+const C = document.getElementById('eye');
+const ctx = C.getContext('2d');
+let W, H, cx, cy;
+
+function resize() {
+  W = C.width = window.innerWidth;
+  H = C.height = window.innerHeight;
+  cx = W/2; cy = H/2;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Keyboard: +/- to adjust opacity
+document.addEventListener('keydown', e => {
+  if (e.key === '=' || e.key === '+') document.body.style.opacity = Math.min(1, parseFloat(document.body.style.opacity || 0.25) + 0.05);
+  if (e.key === '-') document.body.style.opacity = Math.max(0.05, parseFloat(document.body.style.opacity || 0.25) - 0.05);
+  if (e.key === '0') document.body.style.opacity = 0.25;
+  if (e.key === 'h') document.body.style.opacity = document.body.style.opacity === '0.05' ? '0.25' : '0.05';
+});
+
+let t = 0;
+
+const gates = [
+  { name:'north', role:'HEART', color:'#ff2266', r:45, orbit:0, speed:0, alive:true, pulse:1.0 },
+  { name:'east', role:'BRAIN', color:'#00ff88', r:28, orbit:160, speed:0.003, alive:true, pulse:0.8 },
+  { name:'iron', role:'FORGE', color:'#ffaa00', r:24, orbit:130, speed:0.005, alive:true, pulse:0.7 },
+  { name:'spore', role:'SPORE', color:'#00ddff', r:18, orbit:110, speed:0.007, alive:true, pulse:0.6 },
+  { name:'graft', color:'#88ff44', r:14, orbit:180, speed:0.004, alive:false, pulse:0.3 },
+  { name:'frame', role:'FACE', color:'#ff88cc', r:16, orbit:220, speed:0.002, alive:true, pulse:0.5 },
+  { name:'pixel', role:'HYOID', color:'#aaff00', r:12, orbit:250, speed:0.009, alive:true, pulse:0.4 },
+  { name:'deck', color:'#6644ff', r:10, orbit:90, speed:0.006, alive:false, pulse:0.2 },
+  { name:'swift', color:'#334466', r:20, orbit:200, speed:0.001, alive:false, pulse:0.1 },
+];
+
+const memPts = 48;
+const memNoise = Array.from({length:memPts}, () => ({
+  phase: Math.random()*Math.PI*2, freq: 0.5+Math.random()*2, amp: 20+Math.random()*35
+}));
+
+const particles = Array.from({length:80}, () => ({
+  from: Math.floor(Math.random()*gates.length),
+  to: Math.floor(Math.random()*gates.length),
+  progress: Math.random(),
+  speed: 0.003+Math.random()*0.01,
+  size: 1+Math.random()*2,
+}));
+
+function draw() {
+  ctx.fillStyle = 'rgba(0,0,0,0.12)';
+  ctx.fillRect(0,0,W,H);
+
+  // Membrane
+  const memR = Math.min(W,H)*0.35;
+  ctx.beginPath();
+  for(let i=0;i<=memPts;i++){
+    const idx=i%memPts, a=(idx/memPts)*Math.PI*2;
+    const n=memNoise[idx];
+    const r=memR+Math.sin(t*0.02*n.freq+n.phase)*n.amp+Math.sin(t*0.008)*10;
+    const x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.strokeStyle='rgba(0,255,136,0.2)';
+  ctx.lineWidth=2;
+  ctx.stroke();
+
+  // Connections
+  const gpos = [];
+  gates.forEach((g,i)=>{
+    let x,y;
+    if(i===0){ x=cx+Math.sin(t*0.005)*5; y=cy+Math.cos(t*0.007)*5; }
+    else{ const a=(i/gates.length)*Math.PI*2+t*g.speed; x=cx+Math.cos(a)*g.orbit*(memR/280); y=cy+Math.sin(a)*g.orbit*(memR/280); }
+    gpos.push({x,y,...g});
+  });
+
+  // Willis lines
+  for(let i=0;i<gpos.length;i++){
+    if(!gpos[i].alive) continue;
+    for(let j=i+1;j<gpos.length;j++){
+      if(!gpos[j].alive) continue;
+      ctx.strokeStyle='rgba(0,255,200,0.04)';
+      ctx.beginPath();ctx.moveTo(gpos[i].x,gpos[i].y);ctx.lineTo(gpos[j].x,gpos[j].y);ctx.stroke();
+    }
+  }
+
+  // Particles
+  for(const p of particles){
+    p.progress+=p.speed;
+    if(p.progress>1){p.progress=0;p.from=Math.floor(Math.random()*gates.length);p.to=(p.from+1+Math.floor(Math.random()*(gates.length-1)))%gates.length;}
+    const f=gpos[p.from],tt=gpos[p.to];
+    if(!f.alive&&!tt.alive) continue;
+    const x=f.x+(tt.x-f.x)*p.progress+Math.sin(p.progress*Math.PI*4+t*0.05)*6;
+    const y=f.y+(tt.y-f.y)*p.progress+Math.cos(p.progress*Math.PI*3+t*0.04)*6;
+    ctx.fillStyle=`rgba(0,255,200,${Math.sin(p.progress*Math.PI)*0.5})`;
+    ctx.beginPath();ctx.arc(x,y,p.size,0,Math.PI*2);ctx.fill();
+  }
+
+  // Gates
+  gpos.forEach(g=>{
+    const pulse=1+Math.sin(t*0.05*g.pulse)*0.15;
+    const r=g.r*pulse*(memR/280);
+    if(g.alive){
+      const glow=ctx.createRadialGradient(g.x,g.y,0,g.x,g.y,r*3);
+      glow.addColorStop(0,g.color+'25');glow.addColorStop(1,g.color+'00');
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(g.x,g.y,r*3,0,Math.PI*2);ctx.fill();
+    }
+    ctx.fillStyle=g.alive?g.color+'35':g.color+'10';
+    ctx.beginPath();ctx.arc(g.x,g.y,r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=g.alive?g.color+'66':g.color+'22';
+    ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle=g.color+(g.alive?'aa':'44');
+    ctx.font=`${Math.max(8,r*0.4)}px Consolas`;ctx.textAlign='center';
+    ctx.fillText(g.name,g.x,g.y+3);
+  });
+
+  // Nucleus
+  const nr=20+Math.sin(t*0.01)*4;
+  const nGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,nr);
+  nGrad.addColorStop(0,'rgba(255,100,200,0.2)');nGrad.addColorStop(1,'rgba(255,0,50,0.0)');
+  ctx.fillStyle=nGrad;ctx.beginPath();ctx.arc(cx,cy,nr,0,Math.PI*2);ctx.fill();
+
+  t++;
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

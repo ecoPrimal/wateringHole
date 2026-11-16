@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>GAIA — eyeBall Amoeba</title>
+<style>
+  * { margin:0; padding:0; }
+  body { background:#020508; overflow:hidden; cursor:none; }
+  canvas { display:block; }
+</style>
+</head><body>
+<canvas id="eye"></canvas>
+<script>
+const C = document.getElementById('eye');
+const ctx = C.getContext('2d');
+let W, H, cx, cy;
+
+function resize() {
+  W = C.width = window.innerWidth;
+  H = C.height = window.innerHeight;
+  cx = W/2; cy = H/2;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let t = 0;
+
+// Gates as organelles
+const gates = [
+  { name:'northGate', role:'HEART', color:'#ff2266', r:45, orbit:0, speed:0, x:0, y:0, alive:true, pulse:1.0 },
+  { name:'eastGate', role:'BRAIN', color:'#00ff88', r:28, orbit:160, speed:0.003, x:0, y:0, alive:true, pulse:0.8 },
+  { name:'ironGate', role:'FORGE', color:'#ffaa00', r:24, orbit:130, speed:0.005, x:0, y:0, alive:true, pulse:0.7 },
+  { name:'sporeGate', role:'SPORE', color:'#00ddff', r:18, orbit:110, speed:0.007, x:0, y:0, alive:true, pulse:0.6 },
+  { name:'graftGate', role:'GRAFT', color:'#88ff44', r:14, orbit:180, speed:0.004, x:0, y:0, alive:false, pulse:0.3 },
+  { name:'frameGate', role:'FACE', color:'#ff88cc', r:16, orbit:220, speed:0.002, x:0, y:0, alive:true, pulse:0.5 },
+  { name:'grapheneGate', role:'HYOID', color:'#aaff00', r:12, orbit:250, speed:0.009, x:0, y:0, alive:true, pulse:0.4 },
+  { name:'deckGate', role:'DISPLAY', color:'#6644ff', r:10, orbit:90, speed:0.006, x:0, y:0, alive:false, pulse:0.2 },
+  { name:'swiftGate', role:'ASLEEP', color:'#334466', r:20, orbit:200, speed:0.001, x:0, y:0, alive:false, pulse:0.1 },
+];
+
+// Amoeba membrane points
+const membranePoints = 64;
+const membraneBase = 280;
+const membraneNoise = [];
+for (let i = 0; i < membranePoints; i++) {
+  membraneNoise.push({ phase: Math.random() * Math.PI * 2, freq: 0.5 + Math.random() * 2, amp: 15 + Math.random() * 30 });
+}
+
+// Particles flowing between gates
+const particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    from: Math.floor(Math.random() * gates.length),
+    to: Math.floor(Math.random() * gates.length),
+    progress: Math.random(),
+    speed: 0.002 + Math.random() * 0.008,
+    size: 1 + Math.random() * 2,
+  });
+}
+
+function noise(x, y, t) {
+  return Math.sin(x * 0.01 + t * 0.5) * Math.cos(y * 0.01 + t * 0.3) * 0.5 + 0.5;
+}
+
+function drawMembrane() {
+  ctx.beginPath();
+  for (let i = 0; i <= membranePoints; i++) {
+    const idx = i % membranePoints;
+    const angle = (idx / membranePoints) * Math.PI * 2;
+    const n = membraneNoise[idx];
+    const wobble = Math.sin(t * 0.02 * n.freq + n.phase) * n.amp;
+    const breathe = Math.sin(t * 0.008) * 15;
+    const r = membraneBase + wobble + breathe;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  
+  // Membrane glow
+  const grad = ctx.createRadialGradient(cx, cy, membraneBase - 50, cx, cy, membraneBase + 60);
+  grad.addColorStop(0, 'rgba(0,255,136,0.0)');
+  grad.addColorStop(0.7, 'rgba(0,255,136,0.03)');
+  grad.addColorStop(1, 'rgba(0,255,136,0.0)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  
+  ctx.strokeStyle = 'rgba(0,255,136,0.15)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  // Inner membrane
+  ctx.beginPath();
+  for (let i = 0; i <= membranePoints; i++) {
+    const idx = i % membranePoints;
+    const angle = (idx / membranePoints) * Math.PI * 2;
+    const n = membraneNoise[idx];
+    const wobble = Math.sin(t * 0.02 * n.freq + n.phase + 0.5) * n.amp * 0.6;
+    const breathe = Math.sin(t * 0.008 + 0.3) * 10;
+    const r = membraneBase * 0.85 + wobble + breathe;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.strokeStyle = 'rgba(0,200,255,0.08)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+function drawGate(g, i) {
+  // Update position
+  if (i === 0) {
+    // northGate = center (heart)
+    g.x = cx + Math.sin(t * 0.005) * 5;
+    g.y = cy + Math.cos(t * 0.007) * 5;
+  } else {
+    const baseAngle = (i / gates.length) * Math.PI * 2;
+    const angle = baseAngle + t * g.speed;
+    g.x = cx + Math.cos(angle) * g.orbit;
+    g.y = cy + Math.sin(angle) * g.orbit;
+  }
+  
+  // Pulse
+  const pulse = 1 + Math.sin(t * 0.05 * g.pulse) * 0.15;
+  const r = g.r * pulse;
+  
+  // Glow
+  if (g.alive) {
+    const glow = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, r * 3);
+    glow.addColorStop(0, g.color + '30');
+    glow.addColorStop(1, g.color + '00');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(g.x, g.y, r * 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Body
+  ctx.beginPath();
+  // Organic shape — not perfect circle
+  for (let a = 0; a <= 32; a++) {
+    const angle = (a / 32) * Math.PI * 2;
+    const wobble = Math.sin(angle * 3 + t * 0.03) * r * 0.1;
+    const px = g.x + Math.cos(angle) * (r + wobble);
+    const py = g.y + Math.sin(angle) * (r + wobble);
+    if (a === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  
+  const alpha = g.alive ? 0.6 : 0.15;
+  ctx.fillStyle = g.color + (g.alive ? '40' : '15');
+  ctx.fill();
+  ctx.strokeStyle = g.color + (g.alive ? '88' : '33');
+  ctx.lineWidth = g.alive ? 2 : 1;
+  ctx.stroke();
+  
+  // Label
+  ctx.fillStyle = g.color + (g.alive ? 'cc' : '55');
+  ctx.font = `${Math.max(9, r * 0.35)}px Consolas`;
+  ctx.textAlign = 'center';
+  ctx.fillText(g.name.replace('Gate',''), g.x, g.y - 2);
+  ctx.font = `${Math.max(7, r * 0.25)}px Consolas`;
+  ctx.fillStyle = g.color + '88';
+  ctx.fillText(g.role, g.x, g.y + r * 0.35);
+}
+
+function drawConnections() {
+  // Willis circulation — lines between alive gates
+  for (let i = 0; i < gates.length; i++) {
+    if (!gates[i].alive) continue;
+    for (let j = i + 1; j < gates.length; j++) {
+      if (!gates[j].alive) continue;
+      const dx = gates[j].x - gates[i].x;
+      const dy = gates[j].y - gates[i].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > 400) continue;
+      
+      const alpha = Math.max(0.02, 0.08 - dist * 0.0002);
+      ctx.strokeStyle = `rgba(0,255,200,${alpha})`;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(gates[i].x, gates[i].y);
+      // Curved connection
+      const midX = (gates[i].x + gates[j].x) / 2 + Math.sin(t * 0.01 + i) * 20;
+      const midY = (gates[i].y + gates[j].y) / 2 + Math.cos(t * 0.01 + j) * 20;
+      ctx.quadraticCurveTo(midX, midY, gates[j].x, gates[j].y);
+      ctx.stroke();
+    }
+  }
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    p.progress += p.speed;
+    if (p.progress > 1) {
+      p.progress = 0;
+      p.from = Math.floor(Math.random() * gates.length);

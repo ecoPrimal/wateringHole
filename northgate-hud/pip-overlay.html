@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>GAIA — 5th Eye PIP Overlay</title>
+<style>
+  * { margin:0; padding:0; }
+  body { background:transparent; overflow:hidden; font-family:'Consolas',monospace; }
+  .overlay {
+    position:fixed; top:0; left:0; width:100vw; height:100vh;
+    pointer-events:none;
+  }
+  .panel {
+    position:absolute; background:rgba(2,5,8,0.75);
+    border:1px solid rgba(0,255,136,0.3); border-radius:8px;
+    padding:8px 12px; pointer-events:auto; cursor:move;
+    backdrop-filter:blur(4px);
+  }
+  .panel h3 { color:#00ff88; font-size:11px; letter-spacing:2px; margin-bottom:4px; }
+  .metric { display:flex; justify-content:space-between; gap:12px; padding:2px 0; }
+  .metric .l { color:#6688aa; font-size:10px; }
+  .metric .v { color:#00ddff; font-size:10px; font-weight:bold; }
+  .alive { color:#00ff88 !important; }
+  .hot { color:#ff4400 !important; }
+  .warm { color:#ffaa00 !important; }
+  
+  #gpu-panel { top:8px; right:8px; width:220px; }
+  #mesh-panel { top:8px; left:8px; width:200px; }
+  #compass-panel { bottom:8px; right:8px; width:200px; height:200px; }
+  #eye-panel { bottom:8px; left:8px; width:200px; }
+  
+  #miniglobe { border-radius:50%; border:1px solid rgba(0,255,136,0.2); }
+  
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+</style>
+</head><body>
+<div class="overlay">
+
+  <!-- GPU TELEMETRY — top right -->
+  <div class="panel" id="gpu-panel">
+    <h3>⚡ RTX 5090</h3>
+    <div class="metric"><span class="l">Temp</span><span class="v" id="gpu-temp">--°C</span></div>
+    <div class="metric"><span class="l">Power</span><span class="v" id="gpu-power">--W</span></div>
+    <div class="metric"><span class="l">VRAM</span><span class="v" id="gpu-vram">--/32GB</span></div>
+    <div class="metric"><span class="l">GPU Load</span><span class="v" id="gpu-util">--%</span></div>
+    <div class="metric"><span class="l">Blink</span><span class="v alive">144Hz ⚡</span></div>
+    <div style="margin-top:6px; height:4px; background:#1a2030; border-radius:2px;">
+      <div id="gpu-bar" style="height:100%; width:0%; background:linear-gradient(90deg,#00ff88,#ffaa00,#ff4400); border-radius:2px; transition:width 1s;"></div>
+    </div>
+    <h3 style="margin-top:8px">🧠 9950X3D</h3>
+    <div class="metric"><span class="l">Cores</span><span class="v alive">16C/32T</span></div>
+    <div class="metric"><span class="l">L3</span><span class="v">128MB V-Cache</span></div>
+    <div class="metric"><span class="l">DDR5</span><span class="v" id="ram-used">--/94GB</span></div>
+  </div>
+
+  <!-- GATE MESH — top left -->
+  <div class="panel" id="mesh-panel">
+    <h3>📡 GATE MESH</h3>
+    <div class="metric"><span class="l">eastGate</span><span class="v alive" id="east-st">BRAIN</span></div>
+    <div class="metric"><span class="l">ironGate</span><span class="v alive" id="iron-st">FORGE</span></div>
+    <div class="metric"><span class="l">sporeGate</span><span class="v alive">SPORE</span></div>
+    <div class="metric"><span class="l">frameGate</span><span class="v alive">FACE</span></div>
+    <div class="metric"><span class="l">graphene</span><span class="v warm">HYOID ◌</span></div>
+    <div class="metric"><span class="l">swiftGate</span><span class="v" style="color:#334466">ASLEEP</span></div>
+    <div style="margin-top:6px">
+      <div class="metric"><span class="l">Shares</span><span class="v alive">4 LIVE</span></div>
+      <div class="metric"><span class="l">NVMe</span><span class="v">8.19TB</span></div>
+      <div class="metric"><span class="l">Ollama</span><span class="v">56+ models</span></div>
+    </div>
+  </div>
+
+  <!-- MINI AMOEBA — bottom right -->
+  <div class="panel" id="compass-panel">
+    <h3>🧬 ORGANISM</h3>
+    <canvas id="miniglobe" width="180" height="160"></canvas>
+  </div>
+
+  <!-- EYE STATUS — bottom left -->
+  <div class="panel" id="eye-panel">
+    <h3>👁️ FIVE EYES</h3>
+    <div class="metric"><span class="l">R: 5090→Acer</span><span class="v alive">144Hz 🎮</span></div>
+    <div class="metric"><span class="l">L: iGPU→LG</span><span class="v alive">119Hz 📊</span></div>
+    <div class="metric"><span class="l">3: frameGate</span><span class="v warm">WiFi 📱</span></div>
+    <div class="metric"><span class="l">4: Pixel</span><span class="v warm">Hyoid 🦴</span></div>
+    <div class="metric"><span class="l">5: PIP</span><span class="v alive pulse">THIS ◉</span></div>
+    <div style="margin-top:8px">
+      <div class="metric"><span class="l">Score</span><span class="v alive">125/90</span></div>
+      <div class="metric"><span class="l">Wave</span><span class="v">233</span></div>
+      <div class="metric"><span class="l" id="clock">--:--:--</span><span class="v" id="kenshi-st">KENSHI</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mini amoeba in the compass panel
+const mc = document.getElementById('miniglobe');
+const mctx = mc.getContext('2d');
+let t = 0;
+
+const gates = [
+  {name:'N',color:'#ff2266',x:90,y:80,r:12,alive:true},
+  {name:'E',color:'#00ff88',x:0,y:0,r:8,alive:true,orbit:55,speed:0.004},
+  {name:'I',color:'#ffaa00',x:0,y:0,r:7,alive:true,orbit:45,speed:0.006},
+  {name:'S',color:'#00ddff',x:0,y:0,r:5,alive:true,orbit:50,speed:0.008},
+  {name:'F',color:'#ff88cc',x:0,y:0,r:5,alive:true,orbit:65,speed:0.003},
+  {name:'G',color:'#aaff00',x:0,y:0,r:4,alive:true,orbit:70,speed:0.01},
+  {name:'W',color:'#334466',x:0,y:0,r:6,alive:false,orbit:60,speed:0.002},
+];
+
+function drawMini() {
+  mctx.fillStyle = 'rgba(2,5,8,0.3)';
+  mctx.fillRect(0,0,180,160);
+  
+  const cx=90, cy=80;
+  
+  // Membrane
+  mctx.beginPath();
+  for(let i=0;i<=32;i++){
+    const a=(i/32)*Math.PI*2;
+    const r=72+Math.sin(a*3+t*0.02)*6+Math.sin(t*0.01)*4;
+    const x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r;
+    i===0?mctx.moveTo(x,y):mctx.lineTo(x,y);
+  }
+  mctx.closePath();
+  mctx.strokeStyle='rgba(0,255,136,0.15)';
+  mctx.stroke();
+  
+  // Gates
+  gates.forEach((g,i)=>{
+    if(i>0){
+      const a=(i/gates.length)*Math.PI*2+t*(g.speed||0.005);
+      g.x=cx+Math.cos(a)*(g.orbit||50);
+      g.y=cy+Math.sin(a)*(g.orbit||50);
+    }
+    // Connection to center
+    if(g.alive){
+      mctx.strokeStyle=g.color+'20';
+      mctx.beginPath();mctx.moveTo(cx,cy);mctx.lineTo(g.x,g.y);mctx.stroke();
+    }
+    mctx.fillStyle=g.alive?g.color+'88':g.color+'22';
+    mctx.beginPath();mctx.arc(g.x,g.y,g.r,0,Math.PI*2);mctx.fill();
+    mctx.fillStyle=g.alive?'#fff':'#555';
+    mctx.font='7px Consolas';mctx.textAlign='center';
+    mctx.fillText(g.name,g.x,g.y+3);
+  });
+  
+  t++;
+  requestAnimationFrame(drawMini);
+}
+drawMini();
+
+// Clock
+setInterval(()=>{
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+},1000);
+
+// Simulated GPU polling (would be real with a local API)
+let simGpuTemp = 55, simPower = 141, simVram = 8.4, simUtil = 26;
+setInterval(()=>{
+  simGpuTemp = 50 + Math.random()*15;
+  simPower = 80 + Math.random()*100;
+  simVram = 5 + Math.random()*8;
+  simUtil = 10 + Math.random()*50;
+  
+  const tempEl = document.getElementById('gpu-temp');
+  tempEl.textContent = Math.round(simGpuTemp)+'°C';
+  tempEl.className = 'v '+(simGpuTemp>75?'hot':simGpuTemp>60?'warm':'alive');
+  
+  document.getElementById('gpu-power').textContent = Math.round(simPower)+'W';
+  document.getElementById('gpu-vram').textContent = simVram.toFixed(1)+'/32GB';
+  document.getElementById('gpu-util').textContent = Math.round(simUtil)+'%';
+  document.getElementById('gpu-bar').style.width = simUtil+'%';
+  document.getElementById('ram-used').textContent = (15+Math.random()*5).toFixed(1)+'/94GB';
+}, 2000);
+</script>
+</body></html>
